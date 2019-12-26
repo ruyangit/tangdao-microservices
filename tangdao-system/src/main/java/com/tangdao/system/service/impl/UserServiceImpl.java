@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.tangdao.common.lang.StringUtils;
 import com.tangdao.common.service.impl.CrudServiceImpl;
+import com.tangdao.common.utils.PwdUtils;
 import com.tangdao.system.mapper.UserMapper;
 import com.tangdao.system.model.domain.User;
 import com.tangdao.system.service.IUserService;
@@ -77,7 +78,7 @@ public class UserServiceImpl extends CrudServiceImpl<UserMapper, User> implement
 		if(StringUtils.isEmpty(password)) {
 //			password = Global.getConfig("sys.user.initPassword");
 		}
-		user.setPassword(passwordEncoderService.encryptPassword(password));
+		user.setPassword(PwdUtils.encryptPassword(password));
 		this.baseMapper.updateById(user);
 	}
 	
@@ -109,7 +110,7 @@ public class UserServiceImpl extends CrudServiceImpl<UserMapper, User> implement
 			if(StringUtils.isEmpty(password)) {
 //				password = Global.getConfig("sys.user.initPassword");
 			}
-			user.setPassword(passwordEncoderService.encryptPassword(password));
+			user.setPassword(PwdUtils.encryptPassword(password));
 			if(StringUtils.isEmpty(user.getUserType())) {
 				user.setUserType(User.USER_TYPE_NONE);
 			}

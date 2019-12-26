@@ -1,11 +1,11 @@
-package com.tangdao.system.service.impl;
+package com.tangdao.uaa.security.service;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.tangdao.common.utils.PwdUtils;
 
-@Component
+@Service
 public class PasswordEncoderService implements PasswordEncoder{
 
 	@Override
