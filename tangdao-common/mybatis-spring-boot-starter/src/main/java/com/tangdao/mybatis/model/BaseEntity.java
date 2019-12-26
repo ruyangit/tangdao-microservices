@@ -1,4 +1,4 @@
-package com.tangdao.common.model;
+package com.tangdao.mybatis.model;
 
 import java.io.Serializable;
 
@@ -9,26 +9,36 @@ import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.core.metadata.TableInfo;
 import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.tangdao.common.constant.DefaultConstant;
 import com.tangdao.common.lang.ObjectUtils;
 import com.tangdao.common.reflect.ReflectUtils;
 
 import lombok.Data;
 
 @Data
-public abstract class BaseEntity<T> implements Serializable {
+public abstract class BaseEntity<T> implements Serializable, DefaultConstant {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * 主键
+	 */
 	@TableField(exist = false)
 	protected String key;
 
+	/**
+	 * 主键属性
+	 */
 	@JsonIgnore
 	@TableField(exist = false)
 	protected String keyAttrName;
 
+	/**
+	 * 主键列名
+	 */
 	@JsonIgnore
 	@TableField(exist = false)
 	protected String keyColumnName;
@@ -49,7 +59,7 @@ public abstract class BaseEntity<T> implements Serializable {
 		}
 		if (pageSize != null) {
 			this.getPage().setSize(pageSize);
-		}else {
+		} else {
 			this.getPage().setSize(20);
 		}
 	}
@@ -60,7 +70,7 @@ public abstract class BaseEntity<T> implements Serializable {
 		}
 		if (pageNo != null) {
 			this.getPage().setCurrent(pageNo);
-		}else {
+		} else {
 			this.getPage().setCurrent(1);
 		}
 	}
@@ -71,8 +81,8 @@ public abstract class BaseEntity<T> implements Serializable {
 		}
 		if (StringUtils.isNotBlank(orderBy)) {
 			String[] orderBys = orderBy.split(" ");
-			if(orderBys!=null&&orderBys.length==2) {
-				if (StringUtils.isNoneEmpty(orderBys[1])&&"asc".equalsIgnoreCase(orderBys[1])) {
+			if (orderBys != null && orderBys.length == 2) {
+				if (StringUtils.isNoneEmpty(orderBys[1]) && "asc".equalsIgnoreCase(orderBys[1])) {
 					this.getPage().addOrder(OrderItem.asc(orderBys[0]));
 				} else {
 					this.getPage().addOrder(OrderItem.desc(orderBys[0]));
@@ -80,7 +90,7 @@ public abstract class BaseEntity<T> implements Serializable {
 			}
 		}
 
-	 }
+	}
 
 	public BaseEntity() {
 		this(null);
@@ -119,7 +129,7 @@ public abstract class BaseEntity<T> implements Serializable {
 			String value = null;
 			try {
 				TableInfo tableInfo = TableInfoHelper.getTableInfo(this.getClass());
-				if(tableInfo==null) {
+				if (tableInfo == null) {
 					return null;
 				}
 				value = ReflectUtils.invokeGetter(this, tableInfo.getKeyProperty());

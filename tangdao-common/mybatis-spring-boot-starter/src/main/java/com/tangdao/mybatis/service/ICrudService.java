@@ -1,4 +1,4 @@
-package com.tangdao.common.service;
+package com.tangdao.mybatis.service;
 
 import java.io.Serializable;
 import java.util.Collection;

@@ -1,4 +1,4 @@
-package com.tangdao.common.model;
+package com.tangdao.mybatis.model;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

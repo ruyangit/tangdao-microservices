@@ -1,4 +1,4 @@
-package com.tangdao.common.model;
+package com.tangdao.mybatis.model;
 
 import java.lang.reflect.Field;
 import java.util.List;
