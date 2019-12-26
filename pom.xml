@@ -16,6 +16,7 @@
 		<module>tangdao-common/common-core</module>
 		<module>tangdao-common/mybatis-spring-boot-starter</module>
 		<module>tangdao-common/sentinel-spring-boot-starter</module>
+		<module>tangdao-system</module>
 	</modules>
 
 	<properties>

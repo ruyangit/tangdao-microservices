@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tangdao.system.mapper.AreaMapper">
+	<sql id="selectColumns">
+		t.area_code AS "areaCode",
+		t.parent_code AS "parentCode",
+		t.parent_codes AS "parentCodes",
+		t.tree_sort AS "treeSort",
+		t.tree_names AS "treeNames",
+		t.tree_leaf AS "treeLeaf",
+		t.tree_level AS "treeLevel",
+		t.area_name AS "areaName",
+		t.area_type AS "areaType",
+		t.status AS "status",
+		t.create_by AS "createBy",
+		t.create_time AS "createTime",
+		t.update_by AS "updateBy",
+		t.update_time AS "updateTime",
+		t.remarks AS "remarks",
+	</sql>
+</mapper>

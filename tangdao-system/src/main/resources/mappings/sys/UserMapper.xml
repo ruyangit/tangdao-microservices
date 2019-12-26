@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tangdao.system.mapper.UserMapper">
+	
+	<sql id="selectColumns">
+		t.user_code AS "userCode",
+		t.username AS "username",
+		t.password AS "password",
+		t.nickname AS "nickname",
+		t.email AS "email",
+		t.mobile AS "mobile",
+		t.phone AS "phone",
+		t.sex AS "sex",
+		t.avatar AS "avatar",
+		t.sign AS "sign",
+		t.user_type AS "userType",
+		t.mgr_type AS "mgrType",
+		t.last_login_ip AS "lastLoginIp",
+		t.last_login_date AS "lastLoginDate",
+		t.freeze_date AS "freezeDate",
+		t.freeze_cause AS "freezeCause",
+		t.user_weight AS "userWeight",
+		t.status AS "status",
+		t.create_by AS "createBy",
+		t.create_time AS "createTime",
+		t.update_by AS "updateBy",
+		t.update_time AS "updateTime",
+		t.remarks AS "remarks"
+	</sql>
+
+	<delete id="deleteUserRole">
+		delete from sys_user_role where user_code = #{userCode}
+	</delete>
+	
+	<insert id="insertUserRole">
+        INSERT INTO sys_user_role(user_code, role_code)
+        <foreach collection="roleCodes" item="roleCode" separator=" union all ">
+            SELECT #{userCode}, #{roleCode} FROM dual
+        </foreach>
+	</insert>
+	
+</mapper>

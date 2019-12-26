@@ -1,7 +1,7 @@
 /**
  *
  */
-package com.tangdao.common;
+package com.tangdao.mybatis.autoconfigure;
 
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -20,7 +20,7 @@ import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 @Configuration
 @AutoConfigureAfter(MybatisPlusAutoConfiguration.class)
 @EnableConfigurationProperties(MybatisProperties.class)
-public class MybatisAutoConfig {
+public class MybatisAutoConfiguration {
 
 	@Bean
 	@ConditionalOnMissingBean

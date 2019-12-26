@@ -1,7 +1,7 @@
 /**
  *
  */
-package com.tangdao.common.handler;
+package com.tangdao.mybatis.handler;
 
 import java.util.Date;
 

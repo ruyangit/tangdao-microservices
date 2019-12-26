@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tangdao.system.mapper.EmployeeMapper">
+	<sql id="selectColumns">
+		t.emp_code AS "empCode",
+		t.emp_name AS "empName",
+		t.emp_name_en AS "empNameEn",
+		t.office_code AS "officeCode",
+		t.office_name AS "officeName",
+		t.company_code AS "companyCode",
+		t.company_name AS "companyName",
+		t.status AS "status",
+		t.create_by AS "createBy",
+		t.create_time AS "createTime",
+		t.update_by AS "updateBy",
+		t.update_time AS "updateTime",
+		t.remarks AS "remarks",
+	</sql>
+	
+	<sql id="selectColumnsEmpUser">
+		u.user_code AS "userCode",
+		u.username AS "username",
+		u.nickname AS "nickname",
+		u.email AS "email",
+		u.mobile AS "mobile",
+		u.phone AS "phone",
+		u.update_time AS "updateTime",
+		u.status AS "status",
+		u.user_type as "userType",
+		u.mgr_type as "mgrType",
+		t.emp_code AS "employee.empCode",
+		t.emp_name AS "employee.empName",
+		t.emp_name_en AS "employee.empNameEn",
+		t.office_code AS "employee.officeCode",
+		t.office_name AS "employee.officeName",
+		t.company_code AS "employee.companyCode",
+		t.company_name AS "employee.companyName",
+		o.office_code AS "employee.office.officeCode",
+		o.office_name AS "employee.office.officeName",
+		o.parent_codes as "employee.office.parentCodes",
+		o.view_code as "employee.office.viewCode",
+		o.full_name as "employee.office.fullName",
+		o.office_type as "employee.office.officeType",
+		o.email as "employee.office.email",
+		c.company_code AS "employee.company.companyCode",
+		c.company_name AS "employee.company.companyName",
+		c.parent_codes as "employee.company.parentCodes",
+		c.view_code as "employee.company.viewCode",
+		c.full_name as "employee.company.fullName",
+		c.area_code as "employee.company.areaCode"
+	</sql>
+	
+	<select id="findEmpUserPage" resultType="com.tangdao.system.model.vo.EmpUser">
+		select 		
+			<include refid="selectColumnsEmpUser" />
+		from sys_user u 
+		left join sys_employee t on u.user_code = t.emp_code
+		left join sys_office o on t.office_code = o.office_code
+		left join sys_company c on t.company_code = c.company_code
+		where 
+		    u.user_type=#{empUser.USER_TYPE_EMPLOYEE} and u.mgr_type=#{empUser.MGR_TYPE_NOT_ADMIN}
+			<if test="empUser.username != null and empUser.username != ''">
+				AND u.username = #{empUser.username}
+			</if>
+			<if test="empUser.status != null and empUser.status != ''">
+				AND u.status = #{empUser.status}
+			</if>
+			<if test="empUser.employee != null and empUser.employee.officeCode != null and empUser.employee.officeCode != ''">
+				AND t.office_code = #{empUser.employee.officeCode}
+			</if>
+	</select>
+	
+	<select id="getEmpUserByUserCode" resultType="com.tangdao.system.model.vo.EmpUser">
+		select 		
+			<include refid="selectColumnsEmpUser" />
+		from sys_user u 
+		left join sys_employee t on u.user_code = t.emp_code
+		left join sys_office o on t.office_code = o.office_code
+		left join sys_company c on t.company_code = c.company_code
+		where u.user_code = #{userCode}
+	</select>
+	
+	<select id="findEmpPost" resultType="com.tangdao.system.model.vo.EmpPost">
+		select 
+			t.emp_code as "empCode",
+			t.post_code as "postCode"
+		from sys_employee_post t where t.emp_code = #{empCode}
+	</select>
+	
+	<delete id="deleteEmpPost">
+		delete from sys_employee_post where emp_code = #{empCode}
+	</delete>
+	
+	<insert id="insertEmpPost">
+        INSERT INTO sys_employee_post(emp_code, post_code)
+        <foreach collection="postCodes" item="postCode" separator=" union all ">
+            SELECT #{empCode}, #{postCode} FROM dual
+        </foreach>
+	</insert>
+</mapper>
