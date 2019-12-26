@@ -63,7 +63,6 @@
 		<!-- More -->
 		<patchca.version>1.1.0</patchca.version>
 		<thumbnailator.version>0.4.8</thumbnailator.version>
-		<jfinal.version>3.8</jfinal.version>
 		<jodconverter-local.version>4.2.2</jodconverter-local.version>
 		<fastjson.version>1.2.62</fastjson.version>
 		<jsr305.version>3.0.2</jsr305.version>

@@ -13,6 +13,7 @@
 
 	<modules>
 		<module>tangdao-parent</module>
+		<module>tangdao-common/common-core</module>
 	</modules>
 
 	<properties>
