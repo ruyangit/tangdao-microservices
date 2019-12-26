@@ -1,4 +1,4 @@
-package com.tangdao.mybatis.service.impl;
+package com.tangdao.common.service.impl;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -29,8 +29,8 @@ import com.baomidou.mybatisplus.core.toolkit.ReflectionKit;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.tangdao.common.exception.ServiceException;
-import com.tangdao.mybatis.model.DataEntity;
-import com.tangdao.mybatis.service.ICrudService;
+import com.tangdao.common.model.DataEntity;
+import com.tangdao.common.service.ICrudService;
 
 /**
  * 	单表操作 封装

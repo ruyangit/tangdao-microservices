@@ -1,4 +1,4 @@
-package com.tangdao.mybatis.service.impl;
+package com.tangdao.common.service.impl;
 
 import java.io.Serializable;
 import java.util.List;
@@ -16,9 +16,9 @@ import com.tangdao.common.collect.ListUtils;
 import com.tangdao.common.collect.MapUtils;
 import com.tangdao.common.exception.ServiceException;
 import com.tangdao.common.lang.StringUtils;
+import com.tangdao.common.model.TreeEntity;
 import com.tangdao.common.reflect.ReflectUtils;
-import com.tangdao.mybatis.model.TreeEntity;
-import com.tangdao.mybatis.service.ITreeService;
+import com.tangdao.common.service.ITreeService;
 
 /**
  *	 封装结构化数据处理

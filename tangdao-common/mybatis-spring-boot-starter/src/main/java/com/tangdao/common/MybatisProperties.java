@@ -1,7 +1,7 @@
 /**
  *
  */
-package com.tangdao.mybatis;
+package com.tangdao.common;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

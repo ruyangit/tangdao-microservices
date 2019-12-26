@@ -1,4 +1,4 @@
-package com.tangdao.mybatis.model;
+package com.tangdao.common.model;
 
 import java.io.Serializable;
 

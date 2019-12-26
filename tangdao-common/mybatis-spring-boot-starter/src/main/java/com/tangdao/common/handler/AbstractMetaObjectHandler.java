@@ -1,14 +1,14 @@
 /**
  *
  */
-package com.tangdao.mybatis.handler;
+package com.tangdao.common.handler;
 
 import java.util.Date;
 
 import org.apache.ibatis.reflection.MetaObject;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
-import com.tangdao.mybatis.model.DataEntity;
+import com.tangdao.common.model.DataEntity;
 
 /**
  *  填充信息抽象

@@ -1,4 +1,4 @@
-package com.tangdao.mybatis.service;
+package com.tangdao.common.service;
 
 import java.util.List;
 
