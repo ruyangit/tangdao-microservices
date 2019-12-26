@@ -83,8 +83,7 @@
 		<sqljdbc4.version>4.0</sqljdbc4.version>
 
 		<!-- Mybatis -->
-		<mybatis-spring-boot.version>1.3.2</mybatis-spring-boot.version>
-		<mapper-spring-boot.version>2.1.5</mapper-spring-boot.version>
+		<mybatis-plus.version>3.2.0</mybatis-plus.version>
 
 		<!-- Druid -->
 		<druid-spring-boot.version>1.1.9</druid-spring-boot.version>
@@ -97,6 +96,12 @@
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<scope>compile</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
