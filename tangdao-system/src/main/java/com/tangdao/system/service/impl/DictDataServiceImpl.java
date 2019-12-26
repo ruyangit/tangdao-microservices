@@ -5,10 +5,7 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.tangdao.common.cache.JedisUtils;
-import org.tangdao.modules.sys.config.SysRedisConstant;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.tangdao.common.service.impl.CrudServiceImpl;
@@ -27,35 +24,36 @@ import com.tangdao.system.service.IDictDataService;
 @Service
 public class DictDataServiceImpl extends CrudServiceImpl<DictDataMapper, DictData> implements IDictDataService {
 
-	@Autowired
-	private JedisUtils jedisUtils;
+//	@Autowired
+//	private JedisUtils jedisUtils;
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	@SuppressWarnings("unchecked")
 	public Map<String, List<DictData>> getDictDataList() {
 
-		Map<String, List<DictData>> dictDataMap = MapUtils.newHashMap();
-		try {
-			Map<Object, Object> entries = jedisUtils.getHashEntries(SysRedisConstant.RED_SYS_DICT_DATA_LIST);
-			if (MapUtils.isNotEmpty(entries)) {
-				for (Object key : entries.keySet()) {
-					List<DictData> list = (List<DictData>) entries.get(key);
-					dictDataMap.put(key.toString(), list);
-				}
-			}
-		} catch (Exception e) {
-			logger.warn("REDIS 加载失败，将于DB加载", e);
-		}
-
-		if (dictDataMap.size() == 0) {
-			dictDataMap = getDictDataMap();
-			if (dictDataMap.size() > 0) {
-				loadToRedis(dictDataMap);
-			}
-		}
-
-		return dictDataMap;
+//		Map<String, List<DictData>> dictDataMap = MapUtils.newHashMap();
+//		try {
+//			Map<Object, Object> entries = jedisUtils.getHashEntries(SysRedisConstant.RED_SYS_DICT_DATA_LIST);
+//			if (MapUtils.isNotEmpty(entries)) {
+//				for (Object key : entries.keySet()) {
+//					List<DictData> list = (List<DictData>) entries.get(key);
+//					dictDataMap.put(key.toString(), list);
+//				}
+//			}
+//		} catch (Exception e) {
+//			logger.warn("REDIS 加载失败，将于DB加载", e);
+//		}
+//
+//		if (dictDataMap.size() == 0) {
+//			dictDataMap = getDictDataMap();
+//			if (dictDataMap.size() > 0) {
+//				loadToRedis(dictDataMap);
+//			}
+//		}
+//
+//		return dictDataMap;
+		return null;
 	}
 
 	public List<DictData> getDictDataList(String dictType) {
@@ -75,32 +73,33 @@ public class DictDataServiceImpl extends CrudServiceImpl<DictDataMapper, DictDat
 	}
 
 	public void loadToRedis(String dictType, List<DictData> list) {
-		try {
-			jedisUtils.add(SysRedisConstant.RED_SYS_DICT_DATA_LIST, dictType, list);
-		} catch (Exception e) {
-			logger.warn("Redis 加载失败", e);
-		}
+//		try {
+//			jedisUtils.add(SysRedisConstant.RED_SYS_DICT_DATA_LIST, dictType, list);
+//		} catch (Exception e) {
+//			logger.warn("Redis 加载失败", e);
+//		}
 	}
 
 	public boolean loadToRedis(Map<String, List<DictData>> dictDataMap) {
-		if (MapUtils.isEmpty(dictDataMap)) {
-			logger.warn("缓冲失败，可用数据为空，请排查");
-			return false;
-		}
-
-		try {
-			jedisUtils.delete(SysRedisConstant.RED_SYS_DICT_DATA_LIST);
-
-			Map<Object, Object> map = MapUtils.newLinkedHashMap();
-			dictDataMap.keySet().stream().forEach(key -> {
-				map.put(key, dictDataMap.get(key));
-			});
-			jedisUtils.add(SysRedisConstant.RED_SYS_DICT_DATA_LIST, map);
-			return true;
-		} catch (Exception e) {
-			logger.warn("REDIS 重载数据失败", e);
-			return false;
-		}
+//		if (MapUtils.isEmpty(dictDataMap)) {
+//			logger.warn("缓冲失败，可用数据为空，请排查");
+//			return false;
+//		}
+//
+//		try {
+//			jedisUtils.delete(SysRedisConstant.RED_SYS_DICT_DATA_LIST);
+//
+//			Map<Object, Object> map = MapUtils.newLinkedHashMap();
+//			dictDataMap.keySet().stream().forEach(key -> {
+//				map.put(key, dictDataMap.get(key));
+//			});
+//			jedisUtils.add(SysRedisConstant.RED_SYS_DICT_DATA_LIST, map);
+//			return true;
+//		} catch (Exception e) {
+//			logger.warn("REDIS 重载数据失败", e);
+//			return false;
+//		}
+		return false;
 	}
 
 	@Override
@@ -110,25 +109,26 @@ public class DictDataServiceImpl extends CrudServiceImpl<DictDataMapper, DictDat
 	}
 
 	public Map<String, List<DictData>> getDictDataMap() {
-		List<DictData> list = super.select(Wrappers.<DictData>lambdaQuery()
-				.eq(DictData::getStatus, DictData.STATUS_NORMAL).orderByAsc(DictData::getDictSort));
-		if (ListUtils.isEmpty(list)) {
-			logger.warn("缓冲失败，可用数据为空，请排查");
-			return null;
-		}
-		Map<String, List<DictData>> dictDataMap = MapUtils.newLinkedHashMap();
-		List<DictData> targetList = null;
-		for (DictData dd : list) {
-			String dictType = dd.getDictType();
-			if (dictDataMap.get(dictType) == null) {
-				targetList = ListUtils.newLinkedList();
-			} else {
-				targetList = dictDataMap.get(dictType);
-			}
-			targetList.add(dd);
-			dictDataMap.put(dictType, targetList);
-		}
-		return dictDataMap;
+//		List<DictData> list = super.select(Wrappers.<DictData>lambdaQuery()
+//				.eq(DictData::getStatus, DictData.STATUS_NORMAL).orderByAsc(DictData::getDictSort));
+//		if (ListUtils.isEmpty(list)) {
+//			logger.warn("缓冲失败，可用数据为空，请排查");
+//			return null;
+//		}
+//		Map<String, List<DictData>> dictDataMap = MapUtils.newLinkedHashMap();
+//		List<DictData> targetList = null;
+//		for (DictData dd : list) {
+//			String dictType = dd.getDictType();
+//			if (dictDataMap.get(dictType) == null) {
+//				targetList = ListUtils.newLinkedList();
+//			} else {
+//				targetList = dictDataMap.get(dictType);
+//			}
+//			targetList.add(dd);
+//			dictDataMap.put(dictType, targetList);
+//		}
+//		return dictDataMap;
+		return null;
 	}
 
 	@Override

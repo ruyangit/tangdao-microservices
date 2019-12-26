@@ -7,8 +7,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.tangdao.common.config.Global;
-import org.tangdao.modules.sys.utils.UserUtils;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.tangdao.common.lang.StringUtils;
@@ -26,21 +24,11 @@ import com.tangdao.system.service.IUserService;
  * @since 2019-07-02
  */
 @Service
-public class UserServiceImpl extends CrudServiceImpl<UserMapper, User> implements IUserService, UserDetailsService {
+public class UserServiceImpl extends CrudServiceImpl<UserMapper, User> implements IUserService {
 	
 	@Autowired
 	private PasswordEncoderService passwordEncoderService;
 	
-	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		// TODO Auto-generated method stub
-		User user = UserUtils.getByUsername(username);
-		if (user == null) {
-			throw new UsernameNotFoundException("账号不存在");
-		}
-		return user;
-	}
-
 	public boolean checkUsernameExists(String oldUsername, String username) {
 		if (username != null && username.equals(oldUsername)) {
 			return true;
@@ -87,7 +75,7 @@ public class UserServiceImpl extends CrudServiceImpl<UserMapper, User> implement
 		User user = new User();
 		user.setUserCode(userCode);
 		if(StringUtils.isEmpty(password)) {
-			password = Global.getConfig("sys.user.initPassword");
+//			password = Global.getConfig("sys.user.initPassword");
 		}
 		user.setPassword(passwordEncoderService.encryptPassword(password));
 		this.baseMapper.updateById(user);
@@ -119,7 +107,7 @@ public class UserServiceImpl extends CrudServiceImpl<UserMapper, User> implement
 		if(user.getIsNewRecord()) {
 			String password = user.getPassword();
 			if(StringUtils.isEmpty(password)) {
-				password = Global.getConfig("sys.user.initPassword");
+//				password = Global.getConfig("sys.user.initPassword");
 			}
 			user.setPassword(passwordEncoderService.encryptPassword(password));
 			if(StringUtils.isEmpty(user.getUserType())) {
