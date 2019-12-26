@@ -12,7 +12,7 @@
 	</parent>
 
 	<artifactId>tangdao-common-core</artifactId>
-	<name>Tangdao Common Core</name>
+	<name>Tangdao Core</name>
 	<inceptionYear>2019-Now</inceptionYear>
 
 	<dependencies>
