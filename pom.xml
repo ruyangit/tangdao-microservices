@@ -17,6 +17,7 @@
 		<module>tangdao-common/mybatis-spring-boot-starter</module>
 		<module>tangdao-common/sentinel-spring-boot-starter</module>
 		<module>tangdao-system</module>
+		<module>tangdao-system-openfeign-api</module>
 		<module>tangdao-uaa</module>
 	</modules>
 
