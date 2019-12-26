@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -14,8 +15,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
-
-import com.tangdao.uaa.security.service.PasswordEncoderService;
+import org.springframework.util.StringUtils;
 
 /**
  *  认证配置
@@ -33,13 +33,23 @@ public class OAuth2AuthorizationConfig extends AuthorizationServerConfigurerAdap
 	@Autowired
     private UserDetailsService userDetailsService;
 	
-	@Autowired
-	private PasswordEncoderService passwordEncoderService;
+	private PasswordEncoder passwordEncoder() {
+		return new PasswordEncoder() {
+			@Override
+			public boolean matches(CharSequence rawPassword, String encodedPassword) {
+				return StringUtils.hasText(encodedPassword) ? rawPassword.equals(encodedPassword): true;
+			}
+			@Override
+			public String encode(CharSequence rawPassword) {
+				return rawPassword.toString();
+			}
+		};
+	};
 	
 	@Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         // TODO persist clients details
-		String defaultPwd = "66bb0152d2f77e77319cae1da426797163ed747605b0485f099a55f9";
+		String defaultPwd = "123456";
         // @formatter:off
         clients.inMemory()
                 .withClient("browser")
@@ -67,6 +77,6 @@ public class OAuth2AuthorizationConfig extends AuthorizationServerConfigurerAdap
         oauthServer
                 .tokenKeyAccess("permitAll()")
                 .checkTokenAccess("isAuthenticated()")
-                .passwordEncoder(passwordEncoderService);
+                .passwordEncoder(passwordEncoder());
     }
 }

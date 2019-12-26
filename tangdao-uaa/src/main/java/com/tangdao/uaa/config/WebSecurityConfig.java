@@ -25,14 +25,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	private UserDetailsService userDetailsService;
 	
 	@Autowired
-	private PasswordEncoderService PasswordEncoderService;
+	private PasswordEncoderService passwordEncoderService;
 	
 	@Override
     protected void configure(HttpSecurity http) throws Exception {
         // @formatter:off
         http
                 .authorizeRequests().anyRequest().authenticated()
-                .and()
+                .and()	
                 .csrf().disable();
         // @formatter:on
     }
@@ -40,7 +40,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService)
-                .passwordEncoder(PasswordEncoderService);
+                .passwordEncoder(passwordEncoderService);
     }
 
     @Override
