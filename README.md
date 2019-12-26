@@ -1,4 +1,5 @@
 # tangdao-master
+[![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)       [![star](https://gitee.com/ruyangit/tangdao-microservices/badge/star.svg?theme=dark)](https://gitee.com/ruyangit/tangdao-microservices/stargazers)
 
 #### 介绍
 微服务架构，Tangdao 项目拆分，前后端分离。项目采用 springboot、springcloud、springcloud-alibaba、mybatis、fst等，学习微服务相关代码设计。
