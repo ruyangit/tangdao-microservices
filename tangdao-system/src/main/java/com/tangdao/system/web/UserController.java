@@ -1,8 +1,9 @@
 package com.tangdao.system.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -23,13 +24,13 @@ import com.tangdao.system.service.IUserService;
  * @since 2019-07-02
  */
 @RestController
-@RequestMapping("/{env}/users")
-public class UserController implements UserClient {
+@RequestMapping("/api/users")
+public class UserController extends BaseController implements UserClient {
 
 	@Autowired
 	private IUserService userService;
 
-	@RequestMapping(method = RequestMethod.GET)
+	@GetMapping
 	public IPage<User> lists(User user, Page<User> page) {
 		QueryWrapper<User> queryWrapper = new QueryWrapper<User>();
 		if (StringUtils.isNotBlank(user.getStatus())) {
@@ -44,9 +45,8 @@ public class UserController implements UserClient {
 		return this.userService.page(page, queryWrapper);
 	}
 
-	@Override
-	@RequestMapping(value = "/login")
-	public LoginAuthUser getLoginAuthUserByUsername(String username) {
+	@GetMapping(value = "/login/{username}")
+	public LoginAuthUser getLoginAuthUserByUsername(@PathVariable("username") String username) {
 		return userService.getLoginAuthUserByUsername(username);
 	}
 }
