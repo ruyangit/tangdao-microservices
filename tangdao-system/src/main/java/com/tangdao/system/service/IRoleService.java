@@ -2,7 +2,7 @@ package com.tangdao.system.service;
 
 import java.util.List;
 
-import com.tangdao.common.model.Page;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.tangdao.common.service.ICrudService;
 import com.tangdao.system.model.domain.Role;
 import com.tangdao.system.model.domain.User;
@@ -23,7 +23,7 @@ public interface IRoleService extends ICrudService<Role> {
 
 	public void insertRoleMenu(Role role, String[] menuCodes);
 
-	public Page<User> findUserPage(Page<Role> page, Role role);
+	public IPage<User> findUserPage(IPage<Role> page, Role role);
 
 	public int deleteRoleUser(String roleCode, String userCode);
 	

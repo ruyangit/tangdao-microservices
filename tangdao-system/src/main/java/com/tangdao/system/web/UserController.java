@@ -1,7 +1,5 @@
 package com.tangdao.system.web;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -9,6 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.tangdao.common.lang.StringUtils;
 import com.tangdao.openfeign.system.client.UserClient;
 import com.tangdao.openfeign.system.model.LoginAuthUser;
@@ -24,14 +23,14 @@ import com.tangdao.system.service.IUserService;
  * @since 2019-07-02
  */
 @RestController
-@RequestMapping("/api/{env}/users")
+@RequestMapping("/{env}/users")
 public class UserController implements UserClient {
 
 	@Autowired
 	private IUserService userService;
 
 	@RequestMapping(method = RequestMethod.GET)
-	public IPage<User> lists(User user, HttpServletRequest request) {
+	public IPage<User> lists(User user, Page<User> page) {
 		QueryWrapper<User> queryWrapper = new QueryWrapper<User>();
 		if (StringUtils.isNotBlank(user.getStatus())) {
 			queryWrapper.eq("status", user.getStatus());
@@ -42,7 +41,7 @@ public class UserController implements UserClient {
 		if (StringUtils.isNotBlank(user.getUsername()) || StringUtils.isNotBlank(user.getNickname())) {
 			queryWrapper.like("username", user.getUsername()).or().like("nickname", user.getNickname());
 		}
-		return this.userService.page(user.getPage(), queryWrapper);
+		return this.userService.page(page, queryWrapper);
 	}
 
 	@Override

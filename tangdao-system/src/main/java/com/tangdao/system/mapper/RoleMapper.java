@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.tangdao.common.model.Page;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.tangdao.system.model.domain.Role;
 import com.tangdao.system.model.domain.User;
 
@@ -21,7 +21,7 @@ import com.tangdao.system.model.domain.User;
 @Mapper
 public interface RoleMapper extends BaseMapper<Role> {
 
-	public Page<User> findUserPage(Page<Role> page, Role role);
+	public IPage<User> findUserPage(IPage<Role> page, Role role);
 
 	public List<Role> findByUserCode(Role role);
 

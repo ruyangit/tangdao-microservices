@@ -4,9 +4,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.tangdao.common.lang.StringUtils;
-import com.tangdao.common.model.Page;
 import com.tangdao.common.service.impl.CrudServiceImpl;
 import com.tangdao.system.mapper.RoleMapper;
 import com.tangdao.system.model.domain.Role;
@@ -56,7 +56,7 @@ public class RoleServiceImpl extends CrudServiceImpl<RoleMapper, Role> implement
 	}
 	
 	@Override
-	public Page<User> findUserPage(Page<Role> page, Role role) {
+	public IPage<User> findUserPage(IPage<Role> page, Role role) {
 		return this.baseMapper.findUserPage(page, role);
 	}
 

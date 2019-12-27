@@ -5,7 +5,6 @@ import java.io.Serializable;
 import org.apache.commons.lang3.StringUtils;
 
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.core.metadata.TableInfo;
 import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -46,51 +45,6 @@ public abstract class BaseEntity<T> implements Serializable, DefaultConstant {
 	@JsonIgnore
 	@TableField(exist = false)
 	protected boolean isNewRecord;
-
-	/**
-	 * 分页对象
-	 */
-	@TableField(exist = false)
-	protected Page<T> page;
-
-	public void setPageSize(Integer pageSize) {
-		if (this.page == null) {
-			this.page = new Page<T>();
-		}
-		if (pageSize != null) {
-			this.getPage().setSize(pageSize);
-		} else {
-			this.getPage().setSize(20);
-		}
-	}
-
-	public void setPageNo(Integer pageNo) {
-		if (this.page == null) {
-			this.page = new Page<T>();
-		}
-		if (pageNo != null) {
-			this.getPage().setCurrent(pageNo);
-		} else {
-			this.getPage().setCurrent(1);
-		}
-	}
-
-	public void setOrderBy(String orderBy) {
-		if (this.page == null) {
-			this.page = new Page<T>();
-		}
-		if (StringUtils.isNotBlank(orderBy)) {
-			String[] orderBys = orderBy.split(" ");
-			if (orderBys != null && orderBys.length == 2) {
-				if (StringUtils.isNoneEmpty(orderBys[1]) && "asc".equalsIgnoreCase(orderBys[1])) {
-					this.getPage().addOrder(OrderItem.asc(orderBys[0]));
-				} else {
-					this.getPage().addOrder(OrderItem.desc(orderBys[0]));
-				}
-			}
-		}
-
-	}
 
 	public BaseEntity() {
 		this(null);

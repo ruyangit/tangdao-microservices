@@ -19,6 +19,6 @@ import com.tangdao.openfeign.system.model.LoginAuthUser;
 @FeignClient(value = ServiceNameConstants.SYSTEM_SERVICE, fallbackFactory = UserClientFallbackFactory.class, decode404 = true)
 public interface UserClient extends ServiceNameConstants {
 
-	@RequestMapping(value = SYSTEM_CONTEXT_PATH + "/api/v1/users/login", params = "username")
+	@RequestMapping(value = SYSTEM_CONTEXT_PATH + "/v1/users/login", params = "username")
 	public LoginAuthUser getLoginAuthUserByUsername(@RequestParam("username") String username);
 }

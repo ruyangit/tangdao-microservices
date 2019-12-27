@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.tangdao.common.lang.StringUtils;
-import com.tangdao.common.model.Page;
 import com.tangdao.common.service.impl.CrudServiceImpl;
 import com.tangdao.system.mapper.EmployeeMapper;
 import com.tangdao.system.model.domain.Employee;
@@ -28,7 +28,7 @@ public class EmployeeServiceImpl extends CrudServiceImpl<EmployeeMapper, Employe
 	private IUserService userService;
 		
 	@Override
-	public Page<EmpUser> findEmpUserPage(Page<Employee> page, EmpUser empUser) {
+	public IPage<EmpUser> findEmpUserPage(IPage<Employee> page, EmpUser empUser) {
 		return super.baseMapper.findEmpUserPage(page, empUser);
 	}
 

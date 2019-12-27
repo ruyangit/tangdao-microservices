@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.tangdao.common.model.Page;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.tangdao.system.model.domain.Employee;
 import com.tangdao.system.model.vo.EmpPost;
 import com.tangdao.system.model.vo.EmpUser;
@@ -20,7 +20,7 @@ import com.tangdao.system.model.vo.EmpUser;
 @Mapper
 public interface EmployeeMapper extends BaseMapper<Employee> {
 
-	public Page<EmpUser> findEmpUserPage(Page<Employee> page, EmpUser empUser);
+	public IPage<EmpUser> findEmpUserPage(IPage<Employee> page, EmpUser empUser);
 
 	public EmpUser getEmpUserByUserCode(String userCode);
 

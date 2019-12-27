@@ -2,7 +2,7 @@ package com.tangdao.system.service;
 
 import java.util.List;
 
-import com.tangdao.common.model.Page;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.tangdao.common.service.ICrudService;
 import com.tangdao.system.model.domain.Employee;
 import com.tangdao.system.model.vo.EmpPost;
@@ -21,7 +21,7 @@ public interface IEmployeeService extends ICrudService<Employee> {
 	 * @param empUser
 	 * @return
 	 */
-	public Page<EmpUser> findEmpUserPage(Page<Employee> page, EmpUser empUser);
+	public IPage<EmpUser> findEmpUserPage(IPage<Employee> page, EmpUser empUser);
 	
 	/**
 	 *  员工信息
