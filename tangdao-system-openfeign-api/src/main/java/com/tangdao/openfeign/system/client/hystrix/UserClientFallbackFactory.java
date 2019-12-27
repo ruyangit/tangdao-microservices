@@ -1,12 +1,12 @@
 /**
  *
  */
-package com.tangdao.openfeign.client.hystrix;
+package com.tangdao.openfeign.system.client.hystrix;
 
 import org.springframework.stereotype.Component;
 
-import com.tangdao.openfeign.client.UserClient;
-import com.tangdao.openfeign.model.UserVo;
+import com.tangdao.openfeign.system.client.UserClient;
+import com.tangdao.openfeign.system.model.LoginAuthUser;
 
 import feign.hystrix.FallbackFactory;
 import lombok.extern.slf4j.Slf4j;
@@ -26,10 +26,10 @@ public class UserClientFallbackFactory implements FallbackFactory<UserClient> {
 		return new UserClient() {
 			
 			@Override
-			public UserVo getUserByUsername(String username) {
+			public LoginAuthUser getLoginAuthUserByUsername(String username) {
 				// TODO Auto-generated method stub
 				log.error("通过用户名查询用户异常:{}", username, cause);
-				return new UserVo();
+				return new LoginAuthUser();
 			}
 		};
 	}

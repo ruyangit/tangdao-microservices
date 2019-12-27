@@ -53,7 +53,7 @@ public class OAuth2AuthorizationConfig extends AuthorizationServerConfigurerAdap
         // @formatter:off
         clients.inMemory()
                 .withClient("browser")
-                .authorizedGrantTypes("refresh_token", "password")
+                .authorizedGrantTypes("refresh_token", "password", "client_credentials")
                 .scopes("ui")
                 .and()
                 .withClient("system-service")

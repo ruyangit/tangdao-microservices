@@ -7,8 +7,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.tangdao.common.constant.DefaultConstant;
-import com.tangdao.openfeign.client.UserClient;
-import com.tangdao.openfeign.model.UserVo;
+import com.tangdao.openfeign.system.client.UserClient;
+import com.tangdao.openfeign.system.model.LoginAuthUser;
 import com.tangdao.uaa.security.model.SecurityUser;
 
 /**
@@ -26,7 +26,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		UserVo user = userClient.getUserByUsername(username);
+		LoginAuthUser user = userClient.getLoginAuthUserByUsername(username);
 		if (user == null) {
 			throw new UsernameNotFoundException("用户名不存在！");
 		}

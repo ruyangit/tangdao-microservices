@@ -1,7 +1,7 @@
 /**
  *
  */
-package com.tangdao.openfeign.common.constants;
+package com.tangdao.openfeign.system.common.constants;
 
 /**
  * 
@@ -10,4 +10,6 @@ package com.tangdao.openfeign.common.constants;
 public interface ServiceNameConstants {
 
 	public final String SYSTEM_SERVICE = "tangdao-system-service";
+	
+	public final String SYSTEM_CONTEXT_PATH = "/system";
 }

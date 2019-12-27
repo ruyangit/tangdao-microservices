@@ -3,15 +3,15 @@ package com.tangdao.system.web;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.tangdao.common.lang.StringUtils;
-import com.tangdao.openfeign.client.UserClient;
-import com.tangdao.openfeign.model.UserVo;
+import com.tangdao.openfeign.system.client.UserClient;
+import com.tangdao.openfeign.system.model.LoginAuthUser;
 import com.tangdao.system.model.domain.User;
 import com.tangdao.system.service.IUserService;
 
@@ -24,13 +24,14 @@ import com.tangdao.system.service.IUserService;
  * @since 2019-07-02
  */
 @RestController
-public class UserController implements UserClient{
+@RequestMapping("/api/{env}/users")
+public class UserController implements UserClient {
 
 	@Autowired
 	private IUserService userService;
 
-	@GetMapping("/system/users")
-	public @ResponseBody IPage<User> lists(User user, HttpServletRequest request) {
+	@RequestMapping(method = RequestMethod.GET)
+	public IPage<User> lists(User user, HttpServletRequest request) {
 		QueryWrapper<User> queryWrapper = new QueryWrapper<User>();
 		if (StringUtils.isNotBlank(user.getStatus())) {
 			queryWrapper.eq("status", user.getStatus());
@@ -45,17 +46,8 @@ public class UserController implements UserClient{
 	}
 
 	@Override
-	public UserVo getUserByUsername(String username) {
-		User user = userService.getUserByUsername(username);
-		if(user==null) {
-			return null;
-		}
-		UserVo userVo = new UserVo();
-		userVo.setUserCode(user.getUserCode());
-		userVo.setUsername(user.getUsername());
-		userVo.setPassword(user.getPassword());
-		userVo.setStatus(user.getStatus());
-		return userVo;
+	@RequestMapping(value = "/login")
+	public LoginAuthUser getLoginAuthUserByUsername(String username) {
+		return userService.getLoginAuthUserByUsername(username);
 	}
-
 }

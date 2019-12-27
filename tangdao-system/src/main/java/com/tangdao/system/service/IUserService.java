@@ -1,6 +1,7 @@
 package com.tangdao.system.service;
 
 import com.tangdao.common.service.ICrudService;
+import com.tangdao.openfeign.system.model.LoginAuthUser;
 import com.tangdao.system.model.domain.User;
 
 /**
@@ -73,5 +74,12 @@ public interface IUserService extends ICrudService<User> {
 	 * @param user
 	 */
 	public void saveAuth(User user);
+	
+	/**
+	 * 根据用户名获取用户登录信息
+	 * @param username
+	 * @return
+	 */
+	public LoginAuthUser getLoginAuthUserByUsername(String username);
 
 }

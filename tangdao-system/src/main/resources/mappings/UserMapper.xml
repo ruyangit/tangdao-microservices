@@ -39,4 +39,18 @@
         </foreach>
 	</insert>
 	
+	<select id="getLoginAuthUser" resultType="com.tangdao.openfeign.system.model.LoginAuthUser">
+		select 
+			t.user_code AS "userCode",
+			t.username AS "username",
+			t.password AS "password",
+			t.nickname AS "nickname",
+			t.email AS "email",
+			t.mobile AS "mobile",
+			t.phone AS "phone",
+			t.user_type AS "userType",
+			t.mgr_type AS "mgrType",
+			t.status AS "status"
+		from sys_user t where t.username = #{user.username} limit 1
+	</select>	
 </mapper>

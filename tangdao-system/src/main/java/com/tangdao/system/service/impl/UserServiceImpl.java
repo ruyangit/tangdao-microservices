@@ -2,16 +2,13 @@ package com.tangdao.system.service.impl;
 
 import java.util.Date;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.tangdao.common.lang.StringUtils;
 import com.tangdao.common.service.impl.CrudServiceImpl;
 import com.tangdao.common.utils.PwdUtils;
+import com.tangdao.openfeign.system.model.LoginAuthUser;
 import com.tangdao.system.mapper.UserMapper;
 import com.tangdao.system.model.domain.User;
 import com.tangdao.system.service.IUserService;
@@ -26,9 +23,6 @@ import com.tangdao.system.service.IUserService;
  */
 @Service
 public class UserServiceImpl extends CrudServiceImpl<UserMapper, User> implements IUserService {
-	
-	@Autowired
-	private PasswordEncoderService passwordEncoderService;
 	
 	public boolean checkUsernameExists(String oldUsername, String username) {
 		if (username != null && username.equals(oldUsername)) {
@@ -94,6 +88,7 @@ public class UserServiceImpl extends CrudServiceImpl<UserMapper, User> implement
 	}
 
 	@Override
+//	@Cacheable(value = "user", key = "#username")
 	public User getUserByUsername(String username) {
 		return this.getOne(Wrappers.<User>lambdaQuery().eq(User::getUsername, username));
 	}
@@ -130,5 +125,12 @@ public class UserServiceImpl extends CrudServiceImpl<UserMapper, User> implement
 		if(StringUtils.isNotBlank(user.getRoleCodes())) {
 			this.baseMapper.insertUserRole(user.getUserCode(), user.getRoleCodes().split(","));
 		}
+	}
+	
+	@Override
+	public LoginAuthUser getLoginAuthUserByUsername(String username) {
+		LoginAuthUser user = new LoginAuthUser();
+		user.setUsername(username);
+		return this.baseMapper.getLoginAuthUser(user);
 	}
 }

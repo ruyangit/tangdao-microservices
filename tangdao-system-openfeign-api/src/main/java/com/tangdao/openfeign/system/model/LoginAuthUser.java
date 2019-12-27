@@ -1,7 +1,7 @@
 /**
  *
  */
-package com.tangdao.openfeign.model;
+package com.tangdao.openfeign.system.model;
 
 import java.io.Serializable;
 
@@ -15,7 +15,7 @@ import lombok.experimental.Accessors;
 
 @Data
 @Accessors(chain = true)
-public class UserVo implements Serializable {
+public class LoginAuthUser implements Serializable {
 
 	/**
 	 * 
@@ -23,10 +23,11 @@ public class UserVo implements Serializable {
 	private static final long serialVersionUID = 7848186533505718243L;
 
 	private String userCode;
-	
+
 	private String username;
-	
+
 	private String password;
-	
+
 	private String status;
+
 }

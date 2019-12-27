@@ -4,6 +4,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.tangdao.openfeign.system.model.LoginAuthUser;
 import com.tangdao.system.model.domain.User;
 
 /**
@@ -20,5 +21,7 @@ public interface UserMapper extends BaseMapper<User> {
 	public void deleteUserRole(String userCode);
 
 	public int insertUserRole(@Param("userCode") String userCode, @Param("roleCodes") String[] roleCodes);
+	
+	public LoginAuthUser getLoginAuthUser(@Param("user") LoginAuthUser user);
 
 }
