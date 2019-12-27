@@ -1,4 +1,4 @@
-package com.tangdao.system.web;
+package com.tangdao.system.controller;
 
 import javax.servlet.http.HttpServletResponse;
 
