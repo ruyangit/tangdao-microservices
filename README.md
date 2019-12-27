@@ -5,13 +5,20 @@
 微服务架构，Tangdao 项目拆分，前后端分离。项目采用 springboot、springcloud、springcloud-alibaba、mybatis、fst等，学习微服务相关代码设计。
 
 #### 软件架构
-软件架构说明
-
+<img src="doc/images/微服务架构设计.jpg" width="100%" />
 
 #### 主要功能
+用户，角色，菜单，岗位，机构，公司，数据字典，系统配置，日志，缓存（可视化redis），代码生成，组件展示等。
 
+### 运行项目
+```
+mvn springboot:run
+```
 
-#### 使用说明
+### 打包发布
+```
+mvn package -f pom.xml -Dmaven.test.skip=true
+```
 
 
 #### 参与贡献
