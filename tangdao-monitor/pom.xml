@@ -11,19 +11,10 @@
 		<relativePath>../tangdao-parent</relativePath>
 	</parent>
 
-	<artifactId>tangdao-system-openfeign-api</artifactId>
-	<name>Tangdao System Openfeign Api</name>
+	<artifactId>tangdao-monitor-service</artifactId>
+	<name>Tangdao Monitor Service</name>
 	<inceptionYear>2019-Now</inceptionYear>
 
 	<dependencies>
-		<!-- 
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-oauth2</artifactId>
-		</dependency> -->
-		<dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-openfeign</artifactId>
-        </dependency>
 	</dependencies>
 </project>
