@@ -32,12 +32,6 @@ public class SecurityUser implements UserDetails, CredentialsContainer {
 
 	@Override
 	public Collection<SimpleGrantedAuthority> getAuthorities() {
-//        if (authorities == null) {
-//            this.authorities = this.getRoles().stream().map(
-//            		role -> 
-//            		new SimpleGrantedAuthority(role)
-//            		).collect(Collectors.toList());
-//        }
 		return authorities;
 	}
 

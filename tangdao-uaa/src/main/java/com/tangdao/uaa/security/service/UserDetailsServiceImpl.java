@@ -34,7 +34,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		securityUser.setId(user.getUserCode());
 		securityUser.setUsername(user.getUsername());
 		securityUser.setPassword(user.getPassword());
-		securityUser.setEnabled(DefaultConstant.STATUS_NORMAL.equals(user.getStatus()));
+		securityUser.setEnabled(user.isEnabled());
 		return securityUser;
 	}
 

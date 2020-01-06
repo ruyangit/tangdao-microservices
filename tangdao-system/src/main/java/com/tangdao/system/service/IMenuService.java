@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.tangdao.common.service.ITreeService;
 import com.tangdao.system.model.domain.Menu;
+import com.tangdao.system.model.domain.User;
 
 /**
  * <p>
@@ -32,5 +33,13 @@ public interface IMenuService extends ITreeService<Menu> {
 	 * @return
 	 */
 	public boolean reloadMenuTreeNameToRedis();
+	
+	/**
+	 * 用户权限菜单
+	 * @param user
+	 * @param parentCode
+	 * @return
+	 */
+	public List<Menu> getMenuByParentCode(User user, String parentCode);
 	
 }

@@ -28,6 +28,6 @@ public class LoginAuthUser implements Serializable {
 
 	private String password;
 
-	private String status;
+	private boolean enabled;
 
 }

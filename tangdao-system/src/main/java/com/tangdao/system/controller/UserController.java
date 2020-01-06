@@ -1,5 +1,10 @@
 package com.tangdao.system.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -9,11 +14,16 @@ import org.springframework.web.bind.annotation.RestController;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.tangdao.common.collect.MapUtils;
+import com.tangdao.common.config.Global;
 import com.tangdao.common.lang.StringUtils;
 import com.tangdao.openfeign.system.client.UserClient;
 import com.tangdao.openfeign.system.model.LoginAuthUser;
+import com.tangdao.system.model.domain.Menu;
 import com.tangdao.system.model.domain.User;
+import com.tangdao.system.service.IMenuService;
 import com.tangdao.system.service.IUserService;
+import com.tangdao.system.utils.UserUtils;
 
 /**
  * <p>
@@ -29,6 +39,9 @@ public class UserController extends BaseController implements UserClient {
 
 	@Autowired
 	private IUserService userService;
+	
+	@Autowired
+	private IMenuService  menuService;
 
 	@GetMapping
 	public IPage<User> lists(User user, Page<User> page) {
@@ -48,5 +61,20 @@ public class UserController extends BaseController implements UserClient {
 	@GetMapping(value = "/login/{username}")
 	public LoginAuthUser getLoginAuthUserByUsername(@PathVariable("username") String username) {
 		return userService.getLoginAuthUserByUsername(username);
+	}
+	
+	@GetMapping(value = "/login/after")
+	public Map<String, Object> getLoginAfter() {
+		User user = userService.getByUsername(UserUtils.getUsername());
+		List<Menu> menus = menuService.getMenuByParentCode(user, null);
+		Map<String, Object> data = MapUtils.newHashMap();
+		data.put("user", user);
+		List<Menu> targetMenus = new ArrayList<>();
+		List<Menu> sourceMenus = menus.stream()
+				.filter(menu -> Global.YES.equals(menu.getIsShow()) && Menu.TYPE_MENU.equals(menu.getMenuType()))
+				.collect(Collectors.toList());
+		menuService.convertChildList(sourceMenus, targetMenus, Menu.ROOT_CODE);
+		data.put("menus", targetMenus);
+		return null;
 	}
 }

@@ -1,16 +1,26 @@
 package com.tangdao.system.service.impl;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.tangdao.common.collect.ListUtils;
+import com.tangdao.common.config.Global;
+import com.tangdao.common.lang.StringUtils;
 import com.tangdao.common.service.impl.TreeServiceImpl;
 import com.tangdao.system.mapper.MenuMapper;
+import com.tangdao.system.model.domain.Config;
 import com.tangdao.system.model.domain.Menu;
+import com.tangdao.system.model.domain.Role;
+import com.tangdao.system.model.domain.User;
+import com.tangdao.system.service.IConfigService;
 import com.tangdao.system.service.IMenuService;
 
 /**
@@ -26,6 +36,9 @@ public class MenuServiceImpl extends TreeServiceImpl<MenuMapper, Menu> implement
 
 //	@Autowired
 //	private JedisUtils jedisUtils;
+	
+	@Autowired
+	private IConfigService configService;
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -175,5 +188,44 @@ public class MenuServiceImpl extends TreeServiceImpl<MenuMapper, Menu> implement
 //		}
 //		return s;
 		return null;
+	}
+	
+	/**
+	 * 	获取权限数据源
+	 * @param user
+	 * @param parentCode
+	 * @return
+	 */
+	public List<Menu> getMenuByParentCode(User user, String parentCode) {
+		List<Menu> menus = null;
+		if (User.isSuperAdmin(user.getUserCode())) {
+			QueryWrapper<Menu> queryWrapper = new QueryWrapper<Menu>();
+			queryWrapper.ne("status", Menu.STATUS_DELETE);
+			queryWrapper.ge("weight", Menu.SUPER_ADMIN_GET_MENU_MIN_WEIGHT); // 管理员获取的最小权重菜单，（用于有些菜单管理员不可查看，如财务报表等）
+
+			queryWrapper.orderByAsc("tree_sort");
+			menus = this.select(queryWrapper);
+		} else {
+			// 获取用户类型指定默认角色
+			Menu menu = new Menu();
+			String defaultRoleCodes = configService.getValueByKey("sys.user.defaultRoleCodes." + user.getUserType());
+			if (!User.USER_TYPE_NONE.equals(user.getUserType()) && StringUtils.isNotBlank(defaultRoleCodes)) {
+				menu.setDefaultRoleCodes(Arrays.asList(StringUtils.split(defaultRoleCodes, ",")));
+			}
+			// 管理员角色追加
+			if (user.isAdmin()) {
+				Collection<String> roleCodes = menu.getDefaultRoleCodes();
+				if (ListUtils.isEmpty(roleCodes)) {
+					roleCodes = new ArrayList<>();
+					menu.setDefaultRoleCodes(roleCodes);
+				}
+				roleCodes.add(Role.DEFAULT_ADMIN_ROLE_CODE);
+				menu.setDefaultRoleCodes(roleCodes);
+			}
+			menu.setUserCode(user.getUserCode());
+			menu.setParentCode(parentCode);
+			menus = this.findByUserMenu(menu, false);
+		}
+		return menus;
 	}
 }
