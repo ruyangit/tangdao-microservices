@@ -7,6 +7,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.security.oauth2.client.feign.OAuth2FeignRequestInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.client.DefaultOAuth2ClientContext;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
@@ -22,7 +23,15 @@ import feign.RequestInterceptor;
  */
 @Configuration
 @EnableResourceServer
+@EnableGlobalMethodSecurity(prePostEnabled = true, jsr250Enabled = true)
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
+	
+//	private final ResourceServerProperties sso;
+//
+//    @Autowired
+//    public ResourceServerConfig(ResourceServerProperties sso) {
+//        this.sso = sso;
+//    }
 
 	@Bean
 	@ConfigurationProperties(prefix = "security.oauth2.client")
@@ -48,6 +57,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
 //		http.authorizeRequests().antMatchers("/api/users/login/**").permitAll().anyRequest().authenticated();
-		http.authorizeRequests().antMatchers("/api/users/login/**").permitAll().antMatchers("/api/**").authenticated();
+		http.authorizeRequests()
+				.antMatchers("/api/users/login/**").permitAll()
+				.antMatchers("/api/**").authenticated();
 	}
 }
