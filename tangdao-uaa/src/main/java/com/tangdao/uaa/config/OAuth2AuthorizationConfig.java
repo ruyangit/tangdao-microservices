@@ -25,6 +25,7 @@ import org.springframework.util.StringUtils;
 @Configuration
 @EnableAuthorizationServer
 public class OAuth2AuthorizationConfig extends AuthorizationServerConfigurerAdapter {
+	
 	private TokenStore tokenStore = new InMemoryTokenStore();
 
 	@Autowired

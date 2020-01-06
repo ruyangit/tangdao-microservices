@@ -23,7 +23,6 @@ import com.tangdao.system.model.domain.Menu;
 import com.tangdao.system.model.domain.User;
 import com.tangdao.system.service.IMenuService;
 import com.tangdao.system.service.IUserService;
-import com.tangdao.system.utils.UserUtils;
 
 /**
  * <p>
@@ -63,9 +62,9 @@ public class UserController extends BaseController implements UserClient {
 		return userService.getLoginAuthUserByUsername(username);
 	}
 	
-	@GetMapping(value = "/login/after")
-	public Map<String, Object> getLoginAfter() {
-		User user = userService.getByUsername(UserUtils.getUsername());
+	@GetMapping(value = "/login/{username}/after")
+	public Map<String, Object> getLoginAfter(@PathVariable("username") String username) {
+		User user = userService.getByUsername(username);
 		List<Menu> menus = menuService.getMenuByParentCode(user, null);
 		Map<String, Object> data = MapUtils.newHashMap();
 		data.put("user", user);
@@ -75,6 +74,6 @@ public class UserController extends BaseController implements UserClient {
 				.collect(Collectors.toList());
 		menuService.convertChildList(sourceMenus, targetMenus, Menu.ROOT_CODE);
 		data.put("menus", targetMenus);
-		return null;
+		return data;
 	}
 }
