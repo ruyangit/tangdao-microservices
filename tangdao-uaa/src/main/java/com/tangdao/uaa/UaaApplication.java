@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 @SpringBootApplication
 @EnableDiscoveryClient
 @EnableFeignClients("com.tangdao.openfeign")
-//@EnableOAuth2Client
 @EnableResourceServer
 @RestController
 public class UaaApplication {
