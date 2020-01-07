@@ -13,7 +13,9 @@ import com.tangdao.system.model.domain.Config;
  */
 public interface IConfigService extends ICrudService<Config> {
 	
-	public Config getConfigByKey(String configKey);
+	public Config getConfigByKey(String key);
+	
+	public String getValueByKey(String key);
 
 	public boolean reloadToRedis();
 }

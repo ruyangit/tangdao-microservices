@@ -29,7 +29,7 @@ public interface IUserService extends ICrudService<User> {
 	 * @param username
 	 * @return
 	 */
-	public User getUserByUsername(String username);
+	public User getByUsername(String username);
 
 	/**
 	 * 更新用户级别信息

@@ -89,7 +89,7 @@ public class UserServiceImpl extends CrudServiceImpl<UserMapper, User> implement
 
 	@Override
 //	@Cacheable(value = "user", key = "#username")
-	public User getUserByUsername(String username) {
+	public User getByUsername(String username) {
 		return this.getOne(Wrappers.<User>lambdaQuery().eq(User::getUsername, username));
 	}
 	

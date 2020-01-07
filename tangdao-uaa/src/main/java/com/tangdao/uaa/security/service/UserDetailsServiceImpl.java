@@ -1,15 +1,14 @@
 package com.tangdao.uaa.security.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.tangdao.common.constant.DefaultConstant;
 import com.tangdao.openfeign.system.client.UserClient;
 import com.tangdao.openfeign.system.model.LoginAuthUser;
-import com.tangdao.uaa.security.model.SecurityUser;
 
 /**
  * @ClassName: UserDetailsServiceImpl.java
@@ -26,16 +25,15 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		LoginAuthUser user = userClient.getLoginAuthUserByUsername(username);
-		if (user == null) {
+		LoginAuthUser loginAuthUser = this.userClient.getLoginAuthUserByUsername(username);
+		if (loginAuthUser == null) {
 			throw new UsernameNotFoundException("用户名不存在！");
 		}
-		SecurityUser securityUser = new SecurityUser();
-		securityUser.setId(user.getUserCode());
-		securityUser.setUsername(user.getUsername());
-		securityUser.setPassword(user.getPassword());
-		securityUser.setEnabled(DefaultConstant.STATUS_NORMAL.equals(user.getStatus()));
-		return securityUser;
+		if(!loginAuthUser.isEnabled()) {
+			 throw new DisabledException("用户已被禁用");
+		}
+		loginAuthUser.setAuthorities(this.userClient.findAuthoritiesByUserCode(loginAuthUser.getUserCode()));
+		return loginAuthUser;
 	}
 
 }

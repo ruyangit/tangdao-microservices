@@ -21,6 +21,8 @@
 		t.create_time AS "createTime",
 		t.update_by AS "updateBy",
 		t.update_time AS "updateTime",
+		t.tree_level AS "treeLevel",
+		t.tree_leaf AS "treeLeaf",
 		t.remarks AS "remarks"
 	</sql>
 	

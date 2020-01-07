@@ -25,6 +25,7 @@ import org.springframework.util.StringUtils;
 @Configuration
 @EnableAuthorizationServer
 public class OAuth2AuthorizationConfig extends AuthorizationServerConfigurerAdapter {
+	
 	private TokenStore tokenStore = new InMemoryTokenStore();
 
 	@Autowired
@@ -55,6 +56,11 @@ public class OAuth2AuthorizationConfig extends AuthorizationServerConfigurerAdap
                 .withClient("browser")
                 .authorizedGrantTypes("refresh_token", "password", "client_credentials")
                 .scopes("ui")
+                .and()
+                .withClient("uaa-service")
+                .secret(defaultPwd)
+                .authorizedGrantTypes("client_credentials", "refresh_token")
+                .scopes("server")
                 .and()
                 .withClient("system-service")
                 .secret(defaultPwd)

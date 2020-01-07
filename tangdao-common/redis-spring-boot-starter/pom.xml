@@ -8,21 +8,30 @@
 		<groupId>com.tangdao</groupId>
 		<artifactId>tangdao-parent</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
-		<relativePath>../tangdao-parent</relativePath>
+		<relativePath>../../tangdao-parent</relativePath>
 	</parent>
 
-	<artifactId>tangdao-system-openfeign-api</artifactId>
-	<name>Tangdao System Openfeign Api</name>
+	<artifactId>tangdao-redis-spring-boot-starter</artifactId>
+	<name>Tangdao Redis</name>
 	<inceptionYear>2019-Now</inceptionYear>
 
 	<dependencies>
 		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-oauth2</artifactId>
+			<groupId>com.tangdao</groupId>
+			<artifactId>tangdao-common-core</artifactId>
+			<version>${project.version}</version>
 		</dependency>
+		
 		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-openfeign</artifactId>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-redis</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-configuration-processor</artifactId>
+			<optional>true</optional>
 		</dependency>
 	</dependencies>
+
 </project>
