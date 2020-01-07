@@ -4,9 +4,13 @@
 package com.tangdao.openfeign.system.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.security.core.CredentialsContainer;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -40,7 +44,7 @@ public class LoginAuthUser implements UserDetails, CredentialsContainer, Seriali
 
 	private String status;
 
-	private Collection<SimpleGrantedAuthority> authorities;
+	private List<String> authorities;
 
 	@Override
 	public void eraseCredentials() {
@@ -48,8 +52,11 @@ public class LoginAuthUser implements UserDetails, CredentialsContainer, Seriali
 	}
 
 	@Override
-	public Collection<SimpleGrantedAuthority> getAuthorities() {
-		return authorities;
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		if (authorities != null) {
+			return authorities.stream().map(r -> new SimpleGrantedAuthority(r)).collect(Collectors.toList());
+		}
+		return new ArrayList<GrantedAuthority>();
 	}
 
 	@Override

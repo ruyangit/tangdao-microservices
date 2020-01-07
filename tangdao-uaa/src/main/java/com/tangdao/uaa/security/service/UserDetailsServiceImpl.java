@@ -25,13 +25,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		LoginAuthUser loginAuthUser = userClient.getLoginAuthUserByUsername(username);
+		LoginAuthUser loginAuthUser = this.userClient.getLoginAuthUserByUsername(username);
 		if (loginAuthUser == null) {
 			throw new UsernameNotFoundException("用户名不存在！");
 		}
 		if(!loginAuthUser.isEnabled()) {
 			 throw new DisabledException("用户已被禁用");
 		}
+		loginAuthUser.setAuthorities(this.userClient.findAuthoritiesByUserCode(loginAuthUser.getUserCode()));
 		return loginAuthUser;
 	}
 

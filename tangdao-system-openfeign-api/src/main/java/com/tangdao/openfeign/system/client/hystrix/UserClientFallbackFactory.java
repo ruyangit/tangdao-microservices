@@ -3,6 +3,8 @@
  */
 package com.tangdao.openfeign.system.client.hystrix;
 
+import java.util.List;
+
 import org.springframework.stereotype.Component;
 
 import com.tangdao.openfeign.system.client.UserClient;
@@ -13,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * 
+ * 	降級实现
  * @author Ryan Ru(ruyangit@gmail.com)
  */
 
@@ -24,12 +27,19 @@ public class UserClientFallbackFactory implements FallbackFactory<UserClient> {
 	public UserClient create(Throwable cause) {
 		// TODO Auto-generated method stub
 		return new UserClient() {
-			
+
 			@Override
 			public LoginAuthUser getLoginAuthUserByUsername(String username) {
 				// TODO Auto-generated method stub
-				log.error("通过用户名查询用户异常:{}", username, cause);
+				log.error("通过用户名查询用户异常：{}", username, cause);
 				return new LoginAuthUser();
+			}
+
+			@Override
+			public List<String> findAuthoritiesByUserCode(String userCode) {
+				// TODO Auto-generated method stub
+				log.error("通过用户编码查询用户权限异常：{}", userCode, cause);
+				return null;
 			}
 		};
 	}

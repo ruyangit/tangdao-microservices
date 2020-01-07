@@ -3,10 +3,20 @@
  */
 package com.tangdao.system.config;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.AuthoritiesExtractor;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.FixedAuthoritiesExtractor;
+import org.springframework.boot.autoconfigure.security.oauth2.resource.FixedPrincipalExtractor;
+import org.springframework.boot.autoconfigure.security.oauth2.resource.PrincipalExtractor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
@@ -19,21 +29,15 @@ import org.springframework.security.oauth2.common.exceptions.InvalidTokenExcepti
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.OAuth2Request;
 import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
-
-import java.util.*;
+import org.springframework.util.Assert;
 
 /**
- * Extended implementation of {@link org.springframework.boot.autoconfigure.security.oauth2.resource.UserInfoTokenServices}
- * By default, it designed to return only user details. This class provides {@link #getRequest(Map)} method, which
- * returns clientId and scope of calling service. This information used in controller's security checks.
+ * 
  * @author Ryan Ru(ruyangit@gmail.com)
  */
 public class CustomUserInfoTokenServices implements ResourceServerTokenServices {
 
-	protected final Logger logger = LoggerFactory.getLogger(getClass());
-
-	private static final String[] PRINCIPAL_KEYS = new String[] { "user", "username",
-			"userCode", "user_code", "id", "name" };
+	protected final Log logger = LogFactory.getLog(getClass());
 
 	private final String userInfoEndpointUrl;
 
@@ -44,6 +48,8 @@ public class CustomUserInfoTokenServices implements ResourceServerTokenServices 
 	private String tokenType = DefaultOAuth2AccessToken.BEARER_TYPE;
 
 	private AuthoritiesExtractor authoritiesExtractor = new FixedAuthoritiesExtractor();
+
+	private PrincipalExtractor principalExtractor = new FixedPrincipalExtractor();
 
 	public CustomUserInfoTokenServices(String userInfoEndpointUrl, String clientId) {
 		this.userInfoEndpointUrl = userInfoEndpointUrl;
@@ -59,15 +65,22 @@ public class CustomUserInfoTokenServices implements ResourceServerTokenServices 
 	}
 
 	public void setAuthoritiesExtractor(AuthoritiesExtractor authoritiesExtractor) {
+		Assert.notNull(authoritiesExtractor, "AuthoritiesExtractor must not be null");
 		this.authoritiesExtractor = authoritiesExtractor;
 	}
 
+	public void setPrincipalExtractor(PrincipalExtractor principalExtractor) {
+		Assert.notNull(principalExtractor, "PrincipalExtractor must not be null");
+		this.principalExtractor = principalExtractor;
+	}
+
 	@Override
-	public OAuth2Authentication loadAuthentication(String accessToken)
-			throws AuthenticationException, InvalidTokenException {
+	public OAuth2Authentication loadAuthentication(String accessToken) throws AuthenticationException, InvalidTokenException {
 		Map<String, Object> map = getMap(this.userInfoEndpointUrl, accessToken);
 		if (map.containsKey("error")) {
-			this.logger.debug("userinfo returned error: " + map.get("error"));
+			if (this.logger.isDebugEnabled()) {
+				this.logger.debug("userinfo returned error: " + map.get("error"));
+			}
 			throw new InvalidTokenException(accessToken);
 		}
 		return extractAuthentication(map);
@@ -76,25 +89,31 @@ public class CustomUserInfoTokenServices implements ResourceServerTokenServices 
 	private OAuth2Authentication extractAuthentication(Map<String, Object> map) {
 		Object principal = getPrincipal(map);
 		OAuth2Request request = getRequest(map);
-		List<GrantedAuthority> authorities = this.authoritiesExtractor
-				.extractAuthorities(map);
-		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
-				principal, "N/A", authorities);
+		List<GrantedAuthority> authorities = this.authoritiesExtractor.extractAuthorities(map);
+		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(principal, "N/A", authorities);
 		token.setDetails(map);
 		return new OAuth2Authentication(request, token);
 	}
 
-	private Object getPrincipal(Map<String, Object> map) {
-		for (String key : PRINCIPAL_KEYS) {
-			if (map.containsKey(key)) {
-				return map.get(key);
-			}
-		}
-		return "unknown";
+	/**
+	 * Return the principal that should be used for the token. The default implementation
+	 * delegates to the {@link PrincipalExtractor}.
+	 * @param map the source map
+	 * @return the principal or {@literal "unknown"}
+	 */
+	protected Object getPrincipal(Map<String, Object> map) {
+		Object principal = this.principalExtractor.extractPrincipal(map);
+		return (principal == null ? "unknown" : principal);
 	}
-
-	@SuppressWarnings({ "unchecked" })
-	private OAuth2Request getRequest(Map<String, Object> map) {
+	
+	/**
+	 * By default, it designed to return only user details. This class provides {@link #getRequest(Map)} method, which
+	 * returns clientId and scope of calling service. This information used in controller's security checks.
+	 * @param map
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	protected OAuth2Request getRequest(Map<String, Object> map) {
 		Map<String, Object> request = (Map<String, Object>) map.get("oauth2Request");
 
 		String clientId = (String) request.get("clientId");
@@ -112,7 +131,9 @@ public class CustomUserInfoTokenServices implements ResourceServerTokenServices 
 
 	@SuppressWarnings({ "unchecked" })
 	private Map<String, Object> getMap(String path, String accessToken) {
-		this.logger.debug("Getting user info from: " + path);
+		if (this.logger.isDebugEnabled()) {
+			this.logger.debug("Getting user info from: " + path);
+		}
 		try {
 			OAuth2RestOperations restTemplate = this.restTemplate;
 			if (restTemplate == null) {
@@ -131,7 +152,7 @@ public class CustomUserInfoTokenServices implements ResourceServerTokenServices 
 			return restTemplate.getForEntity(path, Map.class).getBody();
 		}
 		catch (Exception ex) {
-			this.logger.info("Could not fetch user details: " + ex.getClass() + ", "
+			this.logger.warn("Could not fetch user details: " + ex.getClass() + ", "
 					+ ex.getMessage());
 			return Collections.<String, Object>singletonMap("error",
 					"Could not fetch user details");

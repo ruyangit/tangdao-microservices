@@ -216,10 +216,6 @@ public class MenuServiceImpl extends TreeServiceImpl<MenuMapper, Menu> implement
 			if (user.isAdmin()) {
 				Collection<String> roleCodes = ListUtils.newArrayList();
 				roleCodes.addAll(menu.getDefaultRoleCodes());
-//				if (ListUtils.isEmpty(roleCodes)) {
-//					roleCodes = new ArrayList<>();
-//					menu.setDefaultRoleCodes(roleCodes);
-//				}
 				roleCodes.add(Role.DEFAULT_ADMIN_ROLE_CODE);
 				menu.setDefaultRoleCodes(roleCodes);
 			}
