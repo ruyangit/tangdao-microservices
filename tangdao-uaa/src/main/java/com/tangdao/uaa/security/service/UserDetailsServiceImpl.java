@@ -1,6 +1,7 @@
 package com.tangdao.uaa.security.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -27,6 +28,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		LoginAuthUser loginAuthUser = userClient.getLoginAuthUserByUsername(username);
 		if (loginAuthUser == null) {
 			throw new UsernameNotFoundException("用户名不存在！");
+		}
+		if(!loginAuthUser.isEnabled()) {
+			 throw new DisabledException("用户已被禁用");
 		}
 		return loginAuthUser;
 	}

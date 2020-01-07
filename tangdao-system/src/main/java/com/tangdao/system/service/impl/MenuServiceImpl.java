@@ -214,11 +214,12 @@ public class MenuServiceImpl extends TreeServiceImpl<MenuMapper, Menu> implement
 			}
 			// 管理员角色追加
 			if (user.isAdmin()) {
-				Collection<String> roleCodes = menu.getDefaultRoleCodes();
-				if (ListUtils.isEmpty(roleCodes)) {
-					roleCodes = new ArrayList<>();
-					menu.setDefaultRoleCodes(roleCodes);
-				}
+				Collection<String> roleCodes = ListUtils.newArrayList();
+				roleCodes.addAll(menu.getDefaultRoleCodes());
+//				if (ListUtils.isEmpty(roleCodes)) {
+//					roleCodes = new ArrayList<>();
+//					menu.setDefaultRoleCodes(roleCodes);
+//				}
 				roleCodes.add(Role.DEFAULT_ADMIN_ROLE_CODE);
 				menu.setDefaultRoleCodes(roleCodes);
 			}

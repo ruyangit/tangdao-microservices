@@ -1,12 +1,8 @@
 package com.tangdao.system.config;
 
-public final class SysRedisConstant {
+import com.tangdao.common.constant.DefaultConstant;
 
-	/**
-	 * 系统缓存命名空间
-	 */
-	public static String DEFAULT_NAMESPACE = "tangdao:";
-	
+public interface SysRedisConstant extends DefaultConstant{
 	
 	 /**
      * 系统常量配置数据数据

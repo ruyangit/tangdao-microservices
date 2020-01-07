@@ -1,11 +1,13 @@
 package com.tangdao.system.controller;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -57,14 +59,16 @@ public class UserController extends BaseController implements UserClient {
 		return this.userService.page(page, queryWrapper);
 	}
 
+	@PreAuthorize("#oauth2.hasScope('server') or #username.equals('demo')")
 	@GetMapping(value = "/login/{username}")
 	public LoginAuthUser getLoginAuthUserByUsername(@PathVariable("username") String username) {
 		return userService.getLoginAuthUserByUsername(username);
 	}
 	
-	@GetMapping(value = "/login/{username}/after")
-	public Map<String, Object> getLoginAfter(@PathVariable("username") String username) {
-		User user = userService.getByUsername(username);
+	@PreAuthorize("isAuthenticated()")
+	@GetMapping(value = "/access/granted/after")
+	public Map<String, Object> getLoginAfter(Principal principal) {
+		User user = userService.getByUsername(principal.getName());
 		List<Menu> menus = menuService.getMenuByParentCode(user, null);
 		Map<String, Object> data = MapUtils.newHashMap();
 		data.put("user", user);
