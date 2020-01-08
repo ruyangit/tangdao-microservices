@@ -6,6 +6,7 @@ import router from './router';
 // import components from './components';
 import App from './App.vue';
 
+import "./assets/scss/tangdao.scss"
 
 Vue.use(eventBus);
 Vue.use(VueI18n);

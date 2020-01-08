@@ -12,7 +12,7 @@
 @import "mixins";
 @import "bootstrap/mixins";
 
-@import "../node_modules/bootstrap/scss/bootstrap";
+@import "../../../node_modules/bootstrap/scss/bootstrap.scss";
 
 // Bootstrap
 @import "bootstrap/reboot";
@@ -57,27 +57,27 @@
 @import "tangdao/steps";
 @import "tangdao/tab";
 
-@import "lib/datatables";
-@import "lib/flot";
-@import "lib/jquery-steps";
-@import "lib/morris";
-@import "lib/parsley";
-@import "lib/quill";
-@import "lib/rangeslider";
-@import "lib/scrollbar";
-@import "lib/select2";
-@import "lib/spectrum";
-@import "lib/tagsinput";
-@import "lib/typeahead";
+// @import "lib/datatables";
+// @import "lib/flot";
+// @import "lib/jquery-steps";
+// @import "lib/morris";
+// @import "lib/parsley";
+// @import "lib/quill";
+// @import "lib/rangeslider";
+// @import "lib/scrollbar";
+// @import "lib/select2";
+// @import "lib/spectrum";
+// @import "lib/tagsinput";
+// @import "lib/typeahead";
 
-@import "panels/backdrop";
-@import "panels/header";
-@import "panels/logo";
-@import "panels/sidebar";
-@import "panels/aside";
-@import "panels/content";
-@import "panels/footer";
-@import "panels/settings";
+// @import "panels/backdrop";
+// @import "panels/header";
+// @import "panels/logo";
+// @import "panels/sidebar";
+// @import "panels/aside";
+// @import "panels/content";
+// @import "panels/footer";
+// @import "panels/settings";
 
 @import "util/background";
 @import "util/border";
