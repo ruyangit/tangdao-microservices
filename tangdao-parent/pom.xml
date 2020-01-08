@@ -37,9 +37,9 @@
 		<maven.test.skip>true</maven.test.skip>
 
 		<!-- Spring versions -->
-		<spring-cloud-dependencies.version>Hoxton.RELEASE</spring-cloud-dependencies.version>
+		<spring-cloud-dependencies.version>Hoxton.SR1</spring-cloud-dependencies.version>
 		<spring-cloud-alibaba-dependencies.version>2.1.1.RELEASE</spring-cloud-alibaba-dependencies.version>
-		<spring-boot-dependencies.version>2.2.1.RELEASE</spring-boot-dependencies.version>
+		<spring-boot-dependencies.version>2.2.2.RELEASE</spring-boot-dependencies.version>
 		<spring-boot-admin.version>2.1.6</spring-boot-admin.version>
 		<spring-boot-maven-plugin.version>2.1.1.RELEASE</spring-boot-maven-plugin.version>
 
