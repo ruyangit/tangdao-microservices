@@ -24,7 +24,7 @@ const i18n = new VueI18n({
   },
 });
 
-if (!window.Promise) { window.Promise = Promise; }
+// if (!window.Promise) { window.Promise = Promise; }
 
 Vue.config.productionTip = false;
 
