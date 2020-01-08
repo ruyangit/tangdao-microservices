@@ -20,6 +20,7 @@
 		<module>tangdao-system</module>
 		<module>tangdao-system-openfeign-api</module>
 		<module>tangdao-uaa</module>
+		<module>tangdao-gateway</module>
 	</modules>
 
 	<properties>

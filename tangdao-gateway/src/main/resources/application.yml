@@ -1,0 +1,37 @@
+logging:
+  level:
+    root: info
+    com.tangdao: debug
+
+#Spring
+spring:
+  application:
+    name: tangdao-gateway-service
+  profiles:
+    active: default
+  main:
+    banner-mode: off
+    allow-bean-definition-overriding: true
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.113.105:8848
+    gateway:
+      defaultFilters:
+        - PreserveHostHeader
+      discovery:
+        locator:
+          lowerCaseServiceId: true
+          enabled: true
+      routes:
+        - id: system
+          uri: lb://tangdao-system-service
+          predicates:
+            - Path=/system/**
+        - id: uaa
+          uri: lb://tangdao-uaa-service
+          predicates:
+            - Path=/uaa/**
+#Server
+server:
+  port: 8000
