@@ -9,5 +9,10 @@ declare global {
     interface IntrinsicElements {
       [elem: string]: any;
     }
+    interface Window { 
+      Promise: any;
+      moment: any;
+      axiosCancel: any;
+    }
   }
 }
