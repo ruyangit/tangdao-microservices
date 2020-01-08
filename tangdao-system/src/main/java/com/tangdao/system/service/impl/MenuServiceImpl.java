@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.tangdao.common.collect.ListUtils;
-import com.tangdao.common.config.Global;
 import com.tangdao.common.lang.StringUtils;
 import com.tangdao.common.service.impl.TreeServiceImpl;
 import com.tangdao.system.mapper.MenuMapper;
