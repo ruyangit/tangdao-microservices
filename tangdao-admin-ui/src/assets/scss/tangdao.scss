@@ -4,6 +4,7 @@
 * Licensed under MIT (https://gitee.com/ruyangit/tangdao-design/blob/master/LICENSE)
 *
 */
+
 // Variables
 @import "variables";
 @import "bootstrap/variables";
@@ -12,7 +13,7 @@
 @import "mixins";
 @import "bootstrap/mixins";
 
-@import "../../../node_modules/bootstrap/scss/bootstrap.scss";
+@import "node_modules/bootstrap/scss/bootstrap.scss";
 
 // Bootstrap
 @import "bootstrap/reboot";
@@ -70,14 +71,14 @@
 // @import "lib/tagsinput";
 // @import "lib/typeahead";
 
-// @import "panels/backdrop";
-// @import "panels/header";
-// @import "panels/logo";
-// @import "panels/sidebar";
-// @import "panels/aside";
-// @import "panels/content";
-// @import "panels/footer";
-// @import "panels/settings";
+@import "panels/backdrop";
+@import "panels/header";
+@import "panels/logo";
+@import "panels/sidebar";
+@import "panels/aside";
+@import "panels/content";
+@import "panels/footer";
+@import "panels/settings";
 
 @import "util/background";
 @import "util/border";

@@ -7,6 +7,11 @@
 
   &:disabled,
   &[readonly] { background-color: $color-ui-01; }
+
+  &:focus{
+    -webkit-box-shadow:none!important;
+    box-shadow:none!important
+  }
 }
 
 textarea.form-control { min-height: $height-base; }
