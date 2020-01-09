@@ -33,7 +33,17 @@
         </li>
         <li class="nav-item">
           <a class="nav-link">
-            <BellIcon />模拟实操
+            <BellIcon />模拟考试
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link">
+            <BellIcon />2020
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link">
+            <BellIcon />社区
           </a>
         </li>
       </ul>
