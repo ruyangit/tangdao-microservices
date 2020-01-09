@@ -53,12 +53,12 @@
   }
 
   .burger-menu {
-    margin-left: 18px;
+    margin-left: 13px;
     color: $color-text-03;
     display: flex;
     align-items: center;
 
-    @include media-breakpoint-up(sm) { margin-left: 20px; }
+    @include media-breakpoint-up(sm) { margin-left: 15px; }
     @include media-breakpoint-up(lg) { display: none; }
 
     svg {

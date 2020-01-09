@@ -1,15 +1,18 @@
 import Vue from 'vue';
 import zh from '@/assets/lang/zh';
+import clickout from '@/utils/clickout';
+import tooltip from '@/utils/tooltip';
 import VueI18n from 'vue-i18n';
 import eventBus from './event-bus';
 import router from './router';
-// import components from './components';
 import App from './App.vue';
 
 import "./assets/scss/tangdao.scss"
 
 Vue.use(eventBus);
 Vue.use(VueI18n);
+Vue.directive('clickout', clickout);
+Vue.directive('tooltip', tooltip);
 
 const savedLanguage = window.localStorage.getItem('lang');
 let language = navigator.language.split('-')[0];
