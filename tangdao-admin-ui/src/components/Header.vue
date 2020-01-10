@@ -78,17 +78,18 @@
 </template>
 <script lang="ts">
 import { Component, Prop, Emit, Vue } from "vue-property-decorator";
-import { MenuIcon, BellIcon, ArrowLeftIcon, XIcon } from "vue-feather-icons";
+import { MenuIcon, BellIcon, ArrowLeftIcon, XIcon, LifeBuoyIcon } from "vue-feather-icons";
 import PerfectScrollbar from "perfect-scrollbar";
 @Component({
   components: {
     MenuIcon,
     BellIcon,
     ArrowLeftIcon,
-    XIcon
+    XIcon,
+    LifeBuoyIcon
   }
 })
-export default class UserLayout extends Vue {
+export default class TdHeader extends Vue {
   public $refs!: { navbarMenu: HTMLFormElement };
   @Emit("onCollapsed")
   onCollapsed(cla: string) {}
