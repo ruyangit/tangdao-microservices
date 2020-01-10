@@ -1,17 +1,18 @@
-function ts(t:any){
-    document.body.appendChild(t);
-}
 export default {
     bind(el: any, binding: any, vnode: any) {
+        const dialogId = binding.arg || 'dialogId';
+        console.log(document.body.querySelector("#test"))
+        console.log(document.body.querySelectorAll("div[id="+dialogId+"]"))
 
-
-        
-        const modalId = binding.arg || 'modalId';
-        console.log(modalId);
         //modal-backdrop fade show
         // const $modalBackdrop = document.createElement('div');
         // $modalBackdrop.setAttribute('class', 'modal-backdrop fade show');
-        document.body.setAttribute('class','modal-open');
+        // document.body.appendChild($modalBackdrop);
+
+
+
+        // var a = modalId.queryselect
+
     //     $popper.setAttribute('role', 'tooltip');
 
     //     // const $content = document.createElement('div');

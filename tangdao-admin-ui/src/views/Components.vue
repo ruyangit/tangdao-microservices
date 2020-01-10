@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <notifications group="foo" position="bottom right"/>
-    <Dialog id="dislogtest">body</Dialog>
+    <Dialog id="test" :visable="true">body</Dialog>
     <p class="mg-t-30">Commponents</p>
     <hr class="mg-y-30" />
     <div class="row">
@@ -80,7 +80,7 @@
       </div>
       <div class="col-md-12 mg-t-10">
         <div class="btn-group" role="group" aria-label="Basic example">
-          <button type="button" class="btn btn-primary" v-dialog:dislogtest>Modal</button>
+          <button type="button" class="btn btn-primary" v-dialog:test>Modal</button>
         </div>
       </div>
       <div class="col-md-3 mg-t-10">1</div>
@@ -120,11 +120,8 @@ export default class App extends Vue {
       group: 'foo',
       type: type,
       title: 'Important message',
-      text: 'Hello user! This is a notification!'
+      text: 'Hello user! This is a notification1!'
     });
-  }
-  public showModal() {
-    // this.$modal.show('hello-world');
   }
 }
 </script>
