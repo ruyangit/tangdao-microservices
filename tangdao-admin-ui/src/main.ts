@@ -2,6 +2,8 @@ import Vue from 'vue';
 import zh from '@/assets/lang/zh';
 import clickout from '@/utils/clickout';
 import tooltip from '@/utils/tooltip';
+import dialog from '@/utils/dialog';
+import VNotifications from 'vue-notification';
 import VueI18n from 'vue-i18n';
 import eventBus from './event-bus';
 import router from './router';
@@ -11,8 +13,10 @@ import "./assets/scss/tangdao.scss"
 
 Vue.use(eventBus);
 Vue.use(VueI18n);
+Vue.use(VNotifications);
 Vue.directive('clickout', clickout);
 Vue.directive('tooltip', tooltip);
+Vue.directive('dialog', dialog);
 
 const savedLanguage = window.localStorage.getItem('lang');
 let language = navigator.language.split('-')[0];
