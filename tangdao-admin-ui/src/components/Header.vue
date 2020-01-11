@@ -1,6 +1,6 @@
 <template>
   <header class="navbar navbar-header navbar-header-fixed">
-    <a class="burger-menu" v-on:click="onCollapsed('navbar-nav-show')">
+    <a href class="burger-menu" v-on:click="onMainMenuOpen">
       <MenuIcon />
     </a>
     <a class="burger-menu d-none">
@@ -19,7 +19,7 @@
           Vuejs
           <span>.org</span>
         </a>
-        <a id="mainMenuClose" v-on:click="onCollapsed('ui')">
+        <a href id="mainMenuClose" v-on:click="onMainMenuClose">
           <XIcon />
         </a>
       </div>
@@ -50,15 +50,15 @@
     </div>
     <!-- navbar-menu-wrapper -->
     <div class="navbar-right">
-      <div class="dropdown dropdown-notification mg-l-15-f">
-        <a href="javascript:;" class="dropdown-link new-indicator" data-toggle="dropdown">
+      <Popper ref="popper" trigger="hover" :options="{placement:'bottom-end'}" tagClassname="dropdown dropdown-notification mg-l-15-f" >
+        <a slot="reference" href="javascript:;" class="dropdown-link new-indicator" data-toggle="dropdown">
           <BellIcon />
           <span>2</span>
         </a>
-        <div class="dropdown-menu dropdown-menu-right">
+        <div class="dropdown-menu dropdown-menu-right show">
           <div class="dropdown-header">通知</div>
           <a href class="dropdown-item">
-            薩芬撒旦飛灑發
+            Messager
             <!-- media -->
           </a>
           <div class="dropdown-footer">
@@ -66,7 +66,7 @@
           </div>
         </div>
         <!-- dropdown-menu -->
-      </div>
+      </Popper>
       <!-- dropdown -->
     </div>
     <!-- navbar-right -->
@@ -78,7 +78,14 @@
 </template>
 <script lang="ts">
 import { Component, Prop, Emit, Vue } from "vue-property-decorator";
-import { MenuIcon, BellIcon, ArrowLeftIcon, XIcon, LifeBuoyIcon } from "vue-feather-icons";
+import {
+  MenuIcon,
+  BellIcon,
+  ArrowLeftIcon,
+  XIcon,
+  LifeBuoyIcon
+} from "vue-feather-icons";
+import Popper from "@/components/Popper.vue";
 import PerfectScrollbar from "perfect-scrollbar";
 @Component({
   components: {
@@ -86,17 +93,24 @@ import PerfectScrollbar from "perfect-scrollbar";
     BellIcon,
     ArrowLeftIcon,
     XIcon,
-    LifeBuoyIcon
+    LifeBuoyIcon,
+    Popper
   }
 })
 export default class TdHeader extends Vue {
   public $refs!: { navbarMenu: HTMLFormElement };
-  @Emit("onCollapsed")
-  onCollapsed(cla: string) {}
   mounted() {
     var psNavbar = new PerfectScrollbar(this.$refs.navbarMenu, {
       suppressScrollX: true
     });
+  }
+  onMainMenuOpen(e: any) {
+    e.preventDefault();
+    document.body.setAttribute("class", "navbar-nav-show");
+  }
+  onMainMenuClose(e: any) {
+    e.preventDefault();
+    document.body.removeAttribute("class");
   }
 }
 </script>

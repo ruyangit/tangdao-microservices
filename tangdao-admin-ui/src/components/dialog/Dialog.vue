@@ -49,12 +49,10 @@ export default class TdDialog extends Vue {
     const _this: any = this;
     // document.body.appendChild(_this.$el);
     _this.listenOnRoot("td::show::modal", (id: any, triggerEl: any) => {
-        console.log(id)
-        // if(!this.show){
-
-        //     console.log(id);
-        //     this.show = true;
-        // }
+      // if(!this.show){
+      //     console.log(id);
+          this.show = true;
+      // }
     });
   }
   //   @Watch("visable", { deep: true })

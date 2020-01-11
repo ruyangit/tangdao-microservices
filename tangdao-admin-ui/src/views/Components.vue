@@ -1,8 +1,14 @@
 <template>
   <div class="container">
-    <notifications group="foo" position="bottom right"/>
-    <Dialog id="test" :visable="false">body1</Dialog>
-    <Dialog id="test2" :visable="false">body2</Dialog>
+    <notifications group="foo" position="bottom right" />
+    <Dialog id="test" :visable="false">
+      body1
+      <div slot="footer">footer</div>
+    </Dialog>
+    <Dialog id="test2" :visable="false">
+      body2
+      <div slot="footer">footer</div>
+    </Dialog>
     <p class="mg-t-30">Commponents</p>
     <hr class="mg-y-30" />
     <div class="row">
@@ -66,7 +72,7 @@
       <div class="col-md-6 mg-t-10">
         <div class="btn-group" role="group" aria-label="Basic example">
           <button type="button" class="btn btn-success" v-on:click="nofy('success')">Success</button>
-          <button type="button" class="btn btn-warning" v-on:click="nofy('warn')">Warning </button>
+          <button type="button" class="btn btn-warning" v-on:click="nofy('warn')">Warning</button>
           <button type="button" class="btn btn-danger" v-on:click="nofy('error')">Danger</button>
           <button type="button" class="btn btn-primary" v-on:click="nofy('primary')">Primary</button>
         </div>
@@ -74,7 +80,7 @@
       <div class="col-md-6 mg-t-10">
         <div class="btn-group" role="group" aria-label="Basic example">
           <button type="button" class="btn btn-success" v-on:click="textnofy('success')">Success</button>
-          <button type="button" class="btn btn-warning" v-on:click="textnofy('warn')">Warning </button>
+          <button type="button" class="btn btn-warning" v-on:click="textnofy('warn')">Warning</button>
           <button type="button" class="btn btn-danger" v-on:click="textnofy('error')">Danger</button>
           <button type="button" class="btn btn-primary" v-on:click="textnofy('primary')">Primary</button>
         </div>
@@ -87,7 +93,6 @@
       </div>
       <div class="col-md-3 mg-t-10">1</div>
     </div>
-    
   </div>
 </template>
 <script lang="ts">
@@ -110,19 +115,19 @@ export default class App extends Vue {
   public test(e: any) {
     console.log(e);
   }
-  public textnofy(type: string){
+  public textnofy(type: string) {
     this.$notify({
-      group: 'foo',
+      group: "foo",
       type: type,
-      text: 'Hello user! This is a notification!'
+      text: "Hello user! This is a notification!"
     });
   }
-  public nofy(type: string){
+  public nofy(type: string) {
     this.$notify({
-      group: 'foo',
+      group: "foo",
       type: type,
-      title: 'Important message',
-      text: 'Hello user! This is a notification1!'
+      title: "Important message",
+      text: "Hello user! This is a notification1!"
     });
   }
 }

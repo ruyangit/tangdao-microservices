@@ -76,7 +76,6 @@ const bind = (el: any, binding: any, vnode: any) => {
 }
 
 const unbind = (el: any, binding: any, vnode: any, oldVnode: any) => {
-
     const trigger = getTriggerElement(el)
     const handler = el ? el[HANDLER] : null
     if (trigger && handler) {
