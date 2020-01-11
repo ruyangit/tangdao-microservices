@@ -1,69 +1,100 @@
+import KeyCodes from './key-codes'
+import {
+    eventOn,
+    eventOff,
+    getAttr,
+    hasAttr,
+    isDisabled,
+    select,
+    setAttr
+} from './dom'
+import { isString } from './inspect'
+import { keys } from './object'
+
+const EVENT_SHOW = 'td::show::modal'
+
+const HANDLER = '__td_modal_directive__'
+
+const EVENT_OPTS = { passive: true }
+
+const getTarget = (binding: any) => {
+    const { modifiers = {}, arg, value } = binding;
+    // Try value, then arg, otherwise pick last modifier
+    return isString(value) ? value : isString(arg) ? arg : keys(modifiers).reverse()[0]
+}
+
+const getTriggerElement = (el: any) => {
+    // If root element is a dropdown-item or nav-item, we
+    // need to target the inner link or button instead
+    return el ? select('a, button', el) || el : el
+}
+
+const setRole = (trigger: any) => {
+    // Ensure accessibility on non button elements
+    if (trigger && trigger.tagName !== 'BUTTON') {
+        // Only set a role if the trigger element doesn't have one
+        if (!hasAttr(trigger, 'role')) {
+            setAttr(trigger, 'role', 'button')
+        }
+        // Add a tabindex is not a button or link, and tabindex is not provided
+        if (trigger.tagName !== 'A' && !hasAttr(trigger, 'tabindex')) {
+            setAttr(trigger, 'tabindex', '0')
+        }
+    }
+}
+
+const bind = (el: any, binding: any, vnode: any) => {
+    const target = getTarget(binding)
+    const trigger = getTriggerElement(el)
+    if (target && trigger) {
+        const handler = (evt: any) => {
+            // `currentTarget` is the element with the listener on it
+            const currentTarget = evt.currentTarget
+            if (!isDisabled(currentTarget)) {
+                const type = evt.type
+                const key = evt.keyCode
+                // Open modal only if trigger is not disabled
+                if (
+                    type === 'click' ||
+                    (type === 'keydown' && (key === KeyCodes.ENTER || key === KeyCodes.SPACE))
+                ) {
+                    vnode.context.$root.$emit(EVENT_SHOW, target, currentTarget)
+                }
+            }
+        }
+        el[HANDLER] = handler
+        // If element is not a button, we add `role="button"` for accessibility
+        setRole(trigger)
+        // Listen for click events
+        eventOn(trigger, 'click', handler, EVENT_OPTS);
+        if (trigger.tagName !== 'BUTTON' && getAttr(trigger, 'role') === 'button') {
+            // If trigger isn't a button but has role button,
+            // we also listen for `keydown.space` && `keydown.enter`
+            eventOn(trigger, 'keydown', handler, EVENT_OPTS)
+        }
+    }
+}
+
+const unbind = (el: any, binding: any, vnode: any, oldVnode: any) => {
+
+    const trigger = getTriggerElement(el)
+    const handler = el ? el[HANDLER] : null
+    if (trigger && handler) {
+        eventOff(trigger, 'click', handler, EVENT_OPTS)
+        eventOff(trigger, 'keydown', handler, EVENT_OPTS)
+    }
+    delete el[HANDLER]
+}
+const componentUpdated = (el: any, binding: any, vnode: any, oldVnode: any) => {
+    unbind(el, binding, vnode, oldVnode)
+    bind(el, binding, vnode)
+}
+
+const updated = () => { }
+
 export default {
-    bind(el: any, binding: any, vnode: any) {
-        const dialogId = binding.arg || 'dialogId';
-        console.log(document.body.querySelector("#test"))
-        console.log(document.body.querySelectorAll("div[id="+dialogId+"]"))
-
-        //modal-backdrop fade show
-        // const $modalBackdrop = document.createElement('div');
-        // $modalBackdrop.setAttribute('class', 'modal-backdrop fade show');
-        // document.body.appendChild($modalBackdrop);
-
-
-
-        // var a = modalId.queryselect
-
-    //     $popper.setAttribute('role', 'tooltip');
-
-    //     // const $content = document.createElement('div');
-    //     // $content.setAttribute('class', 'tooltip-content');
-
-    //     const $arrow = document.createElement('div');
-    //     $arrow.setAttribute('class', 'arrow');
-    //     $arrow.setAttribute('x-arrow', '');
-    //     // if(placement=='right'){
-
-    //     //     $arrow.setAttribute('style', 'top: 8px');
-    //     // }
-    //     // $content.appendChild($arrow);
-
-    //     const $inner = document.createElement('div');
-    //     $inner.setAttribute('class', 'tooltip-inner');
-
-
-    //     // $content.appendChild($inner);
-    //     $popper.appendChild($arrow);
-    //     $popper.appendChild($inner);
-    //     if (binding.value) {
-    //       if (binding.value.appendToBody === false) {
-    //         $popper.style.display = 'none';
-    //         el.appendChild($popper);
-    //       } else {
-    //         $popper.className += ` fade  ${binding.value.popperCls ? binding.value.popperCls.join(' ') : ''} show`;
-    //       }
-    //     }
-
-    //     const options = Object.assign({}, binding.value, { placement });
-
-    //     el.$inner = $inner;
-    //     el.popper = new Popper(el, $popper, options);
-    //     setProperties(el, binding);
-    //     setAttributes($inner, el);
-      },
-    //   inserted(el: any, binding: any, vnode: any, oldVnode: any) {
-    //     addEvent(el);
-    //   },
-    //   unbind(el: any, binding: any, vnode: any, oldVnode: any) {
-    //     removeEvent(el);
-    //     el.popper.destroy();
-    //     if (binding.value.appendToBody === false) {
-    //       if (el.popper.popper) { el.removeChild(el.popper.popper); }
-    //     } else if (el.popper.popper && el.popper.popper.parentNode === document.body) {
-    //       document.body.removeChild(el.popper.popper);
-    //     }
-    //   },
-    //   componentUpdated(el: any, binding: any, vnode: any, oldVnode: any) {
-    //     setProperties(el, binding);
-    //     setAttributes(el.$inner, el);
-    //   },
+    inserted: componentUpdated,
+    updated,
+    componentUpdated,
+    unbind
 }

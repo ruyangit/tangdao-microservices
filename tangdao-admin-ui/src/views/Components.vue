@@ -1,7 +1,8 @@
 <template>
   <div class="container">
     <notifications group="foo" position="bottom right"/>
-    <Dialog id="test" :visable="true">body</Dialog>
+    <Dialog id="test" :visable="false">body1</Dialog>
+    <Dialog id="test2" :visable="false">body2</Dialog>
     <p class="mg-t-30">Commponents</p>
     <hr class="mg-y-30" />
     <div class="row">
@@ -80,7 +81,8 @@
       </div>
       <div class="col-md-12 mg-t-10">
         <div class="btn-group" role="group" aria-label="Basic example">
-          <button type="button" class="btn btn-primary" v-dialog:test>Modal</button>
+          <button type="button" class="btn btn-primary" v-dialog:test>Modal1</button>
+          <button type="button" class="btn btn-warning" v-dialog:test2>Modal2</button>
         </div>
       </div>
       <div class="col-md-3 mg-t-10">1</div>

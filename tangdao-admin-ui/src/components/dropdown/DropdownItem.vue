@@ -5,7 +5,7 @@
 import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
 @Component({})
-export default class RkDropdownItem extends Vue {
+export default class TdDropdownItem extends Vue {
   @Prop() private active!: string | number;
   @Prop() private value!: string | number;
 }

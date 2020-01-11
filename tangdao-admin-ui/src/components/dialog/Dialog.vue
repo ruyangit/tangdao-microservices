@@ -35,14 +35,27 @@
 </template>
 <script lang="ts">
 import { Component, Prop, Watch, Vue } from "vue-property-decorator";
-
-@Component({})
+import { mixins } from "vue-class-component";
+import listenOnRootMixin from "../../mixins/listen-on-root";
+@Component({
+  mixins: [listenOnRootMixin]
+})
 export default class TdDialog extends Vue {
   @Prop() private id: any;
   @Prop({ default: false }) public visable!: boolean;
   private show: boolean = this.visable;
+
   mounted() {
-    document.body.appendChild(this.$el);
+    const _this: any = this;
+    // document.body.appendChild(_this.$el);
+    _this.listenOnRoot("td::show::modal", (id: any, triggerEl: any) => {
+        console.log(id)
+        // if(!this.show){
+
+        //     console.log(id);
+        //     this.show = true;
+        // }
+    });
   }
   //   @Watch("visable", { deep: true })
   //   private visableChanged(newVal: any, oldVal: any): void {}
